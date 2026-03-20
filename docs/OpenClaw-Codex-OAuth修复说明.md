@@ -37,6 +37,25 @@
 - [WgetCloud 官网](https://b8cfff2a4jquxdbmwbaj.wgetcloud.org/)
 - [WgetCloud 用户消息页](https://b8cfff2a4jquxdbmwbaj.wgetcloud.org/user/message)
 
+## 当前机器已确认的代理样板
+
+当前机器实际使用的是：
+
+- `Clash Verge Rev`
+- `HTTP_PROXY=http://127.0.0.1:7897`
+- `HTTPS_PROXY=http://127.0.0.1:7897`
+- `ALL_PROXY=http://127.0.0.1:7897`
+- `NO_PROXY=localhost,127.0.0.1,::1`
+- `NODE_USE_ENV_PROXY=1`
+
+并且已确认存在于：
+
+- 当前 shell 环境
+- `~/.zprofile`
+- `launchctl setenv`
+
+这组配置可以直接作为 macOS 安装排查参考。
+
 必须同时写到：
 
 - 当前会话
@@ -94,7 +113,7 @@ OAuth 要分四段排查：
 
 - `access_token`
 - `refresh_token`
-- `expires`
+- `expires`（若源文件没有，脚本会从 access token 自动解析）
 - `account_id` 或 `user_id`
 
 再写入目标应用的 auth profile。
@@ -107,7 +126,7 @@ OAuth 要分四段排查：
 注意：
 
 - 不要在日志中打印 token 明文
-- 只做结构迁移
+- 只做结构迁移，不要把源文件原样覆盖到目标应用
 
 ## 七、运行阻塞清理
 
@@ -134,7 +153,7 @@ OAuth 要分四段排查：
 
 - 持久化代理环境
 - 做 curl / Node / no_proxy 测试
-- 清理锁和阻塞进程
+- 清理锁和 gateway 阻塞状态
 - 重启 OpenClaw gateway
 - 做最小请求验证
 
@@ -148,7 +167,7 @@ chmod +x ./scripts/openclaw-codex-oauth-repair.sh
 如果要复用已有认证文件：
 
 ```bash
-./scripts/openclaw-codex-oauth-repair.sh /path/to/auth-profiles.json
+./scripts/openclaw-codex-oauth-repair.sh ~/.codex/auth.json
 ```
 
 ## 十、最终验收

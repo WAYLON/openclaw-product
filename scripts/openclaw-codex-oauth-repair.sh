@@ -183,16 +183,74 @@ install_auth_profile() {
     return 0
   fi
   mkdir -p "$OPENCLAW_HOME/agents/main/agent"
-  cp "$AUTH_SOURCE" "$OPENCLAW_HOME/agents/main/agent/auth-profiles.json"
+  node - "$AUTH_SOURCE" "$OPENCLAW_HOME/agents/main/agent/auth-profiles.json" <<'NODE'
+const fs = require('fs');
+
+const [sourcePath, targetPath] = process.argv.slice(2);
+const source = JSON.parse(fs.readFileSync(sourcePath, 'utf8'));
+let target = {
+  version: 1,
+  profiles: {},
+  order: {},
+  lastGood: {},
+};
+
+if (fs.existsSync(targetPath)) {
+  target = JSON.parse(fs.readFileSync(targetPath, 'utf8'));
+  target.version = target.version || 1;
+  target.profiles = target.profiles || {};
+  target.order = target.order || {};
+  target.lastGood = target.lastGood || {};
+}
+
+function decodeJwtExp(token) {
+  if (!token || token.split('.').length < 2) return null;
+  const payload = token.split('.')[1];
+  const normalized = payload.replace(/-/g, '+').replace(/_/g, '/');
+  const padded = normalized + '='.repeat((4 - normalized.length % 4) % 4);
+  const decoded = JSON.parse(Buffer.from(padded, 'base64').toString('utf8'));
+  return decoded.exp ? decoded.exp * 1000 : null;
+}
+
+function mergeAuthProfiles(data) {
+  target.version = data.version || target.version || 1;
+  target.profiles = { ...target.profiles, ...(data.profiles || {}) };
+  target.order = { ...target.order, ...(data.order || {}) };
+  target.lastGood = { ...target.lastGood, ...(data.lastGood || {}) };
+  if (data.usageStats) {
+    target.usageStats = { ...(target.usageStats || {}), ...data.usageStats };
+  }
+}
+
+if (source.profiles && source.order) {
+  mergeAuthProfiles(source);
+} else if (source.tokens && source.tokens.access_token && source.tokens.refresh_token) {
+  const access = source.tokens.access_token;
+  const refresh = source.tokens.refresh_token;
+  const accountId = source.tokens.account_id || source.tokens.user_id || source.user_id || 'unknown';
+  const expires = decodeJwtExp(access) || Date.now() + 60 * 60 * 1000;
+  target.profiles['openai-codex:default'] = {
+    type: 'oauth',
+    provider: 'openai-codex',
+    access,
+    refresh,
+    expires,
+    accountId,
+  };
+  target.order['openai-codex'] = ['openai-codex:default'];
+  target.lastGood['openai-codex'] = 'openai-codex:default';
+} else {
+  throw new Error('无法识别认证文件格式，只支持 auth-profiles.json 或 ~/.codex/auth.json');
+}
+
+fs.writeFileSync(targetPath, JSON.stringify(target, null, 2));
+NODE
   chmod 600 "$OPENCLAW_HOME/agents/main/agent/auth-profiles.json"
 }
 
 clean_runtime_state() {
   log "== cleanup runtime =="
-  pkill -f 'openclaw-agent' >/dev/null 2>&1 || true
-  pkill -f 'openclaw.mjs' >/dev/null 2>&1 || true
-  pkill -f 'openclaw.*gateway' >/dev/null 2>&1 || true
-  pkill -f 'codex' >/dev/null 2>&1 || true
+  openclaw gateway stop >/dev/null 2>&1 || true
   find "$OPENCLAW_HOME/agents" -type f \( -name '*.lock' -o -name '.lock' -o -name 'session.lock' \) -delete 2>/dev/null || true
   find "$HOME/.codex" -type f \( -name '*.lock' -o -name '.lock' \) -delete 2>/dev/null || true
 }

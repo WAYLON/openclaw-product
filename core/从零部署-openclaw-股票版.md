@@ -39,8 +39,8 @@ ls ~/.openclaw
 在目标机器执行：
 
 ```bash
-git clone git@github.com:WAYLON/openclaw-product.git
-cd openclaw-product
+git clone https://github.com/WAYLON/openclaw-product-1.git
+cd openclaw-product-1
 ```
 
 如果目标机器不能使用 SSH，也可以改用 HTTPS 地址。
@@ -192,8 +192,8 @@ ls ~/.openclaw/workspace
 ### 克隆仓库
 
 ```bash
-git clone git@github.com:WAYLON/openclaw-product.git
-cd openclaw-product
+git clone https://github.com/WAYLON/openclaw-product-1.git
+cd openclaw-product-1
 ```
 
 ### 安装基础技能
