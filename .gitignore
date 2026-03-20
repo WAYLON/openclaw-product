@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+
+# local archives
+*.zip
+*.tar
+*.tar.gz
+
+# secrets
+.env
+.env.*
+secrets/
+
+# editor noise
+.idea/
+.vscode/
+
+# local cache
+.cache/

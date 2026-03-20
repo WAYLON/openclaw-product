@@ -1,0 +1,76 @@
+{
+  "name": "openclaw-core-basic-10",
+  "description": "OpenClaw 产品仓库默认基础技能预设",
+  "skills": [
+    {
+      "name": "tavily-search",
+      "kind": "clawhub",
+      "required": true,
+      "install_command": "clawhub install tavily-search",
+      "notes": "实时联网搜索"
+    },
+    {
+      "name": "find-skills",
+      "kind": "clawhub",
+      "required": true,
+      "install_command": "clawhub install find-skills",
+      "notes": "技能发现与推荐"
+    },
+    {
+      "name": "proactive-agent-1-2-4",
+      "kind": "clawhub",
+      "required": true,
+      "install_command": "clawhub install proactive-agent-1-2-4",
+      "notes": "主动巡检与长期任务跟踪"
+    },
+    {
+      "name": "agent-browser",
+      "kind": "npx",
+      "required": true,
+      "install_command": "npx skills add https://github.com/vercel-labs/agent-browser --skill agent-browser",
+      "notes": "浏览器自动化"
+    },
+    {
+      "name": "remotion-best-practices",
+      "kind": "npx",
+      "required": false,
+      "install_command": "npx skills add remotion-dev/skills/remotion-best-practices",
+      "notes": "视频生成"
+    },
+    {
+      "name": "cron",
+      "kind": "builtin",
+      "required": true,
+      "install_command": "",
+      "notes": "OpenClaw 内置定时任务能力"
+    },
+    {
+      "name": "planning-with-files",
+      "kind": "npx",
+      "required": true,
+      "install_command": "npx skills add othmanadi/planning-with-files@planning-with-files -g -y",
+      "notes": "复杂任务的文件化规划"
+    },
+    {
+      "name": "baoyu-skills",
+      "kind": "npx",
+      "required": false,
+      "install_command": "npx skills add jimliu/baoyu-skills -g -y",
+      "notes": "内容创作和发布工具包"
+    },
+    {
+      "name": "anthropics/skills",
+      "kind": "npx",
+      "required": false,
+      "install_command": "npx skills add anthropics/skills@pdf -g -y",
+      "notes": "官方技能库，默认建议先装 pdf 子技能"
+    },
+    {
+      "name": "aliyun-tongyi-wanxiang",
+      "kind": "clawhub",
+      "required": false,
+      "install_command": "clawhub install aliyun-tongyi-wanxiang",
+      "notes": "国产图像生成"
+    }
+  ]
+}
