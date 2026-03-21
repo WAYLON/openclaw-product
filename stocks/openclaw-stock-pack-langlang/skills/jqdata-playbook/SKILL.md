@@ -23,6 +23,7 @@ metadata:
 - 事件研究
 - 回测规划
 - 把主观想法改造成脚本化规则
+- 按 JoinQuant / JQData 风格现场生成完整回测代码
 
 ## 工作流程
 
@@ -31,6 +32,8 @@ metadata:
 3. 如有需要，在已安装时路由给 `jqdata-research`
 4. 报告假设、股票池、时间窗口和限制条件
 5. 把有价值的规则沉淀下来复用
+
+如果用户明确要求“生成聚宽代码”，则在结构化规则后直接产出完整脚本，而不是只给伪代码。
 
 ## 规则翻译
 
@@ -54,12 +57,15 @@ metadata:
 - 排除条件
 - 评估方式
 
+如果用户要求生成代码，还必须把这些内容真正落实到脚本里。
+
 ## 参考资料
 
 - 阅读 [references/jq-research-rules.md](references/jq-research-rules.md) 获取标准研究约定
 - 在继续导入更多聚宽文档前，先阅读 [references/jq-doc-ingest-guide.md](references/jq-doc-ingest-guide.md)
 - 阅读 [references/JoinQuantAPI-学习摘要.md](references/JoinQuantAPI-学习摘要.md) 获取基于官方 PDF 的关键规则摘要
 - 阅读 [references/jqdatasdk-学习摘要.md](references/jqdatasdk-学习摘要.md) 获取基于官方 GitHub 仓库的本地 SDK 接入摘要
+- 阅读 [references/jq-backtest-codegen-spec.md](references/jq-backtest-codegen-spec.md) 获取 LangLang 专用的聚宽回测代码生成格式
 
 ## 备注
 
