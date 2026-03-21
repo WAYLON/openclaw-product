@@ -23,6 +23,7 @@
   - `TOOLS.md`：本机工具与账户占位说明
   - `USER.md`：用户偏好模板
   - `MEMORY.md`：长期记忆模板
+  - `INIT_PROMPT.md`：首次初始化提示词，会要求主动提醒凭证和依赖
 - `skills/`
   - `stock-research-core/`：股票研究总路由技能
   - `qveris-official/`：QVeris 官方技能

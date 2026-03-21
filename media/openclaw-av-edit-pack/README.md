@@ -18,6 +18,7 @@
 ## 当前结构
 
 - `workspace/`
+  - `INIT_PROMPT.md`：首次初始化提示词，会要求主动提醒凭证和依赖
 - `skills/av-edit-core/`
 - `scripts/check_av_tools.sh`
 

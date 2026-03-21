@@ -22,6 +22,7 @@
 
 - `workspace/`
   - 教育模式的人格和路由规则
+  - `INIT_PROMPT.md`：首次初始化提示词，会要求主动提醒凭证和依赖
 - `skills/openmaic-official/`
   - OpenMAIC 教育技能
 - `scripts/check_openmaic_prereqs.sh`

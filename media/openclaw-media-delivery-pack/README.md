@@ -18,6 +18,7 @@
 ## 当前结构
 
 - `workspace/`
+  - `INIT_PROMPT.md`：首次初始化提示词，会要求主动提醒凭证和依赖
 - `skills/media-delivery-core/`
 - `scripts/check_media_delivery_env.sh`
 
