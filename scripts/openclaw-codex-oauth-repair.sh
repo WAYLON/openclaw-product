@@ -60,7 +60,7 @@ persist_runtime_env() {
   append_env_block "$HOME/.bash_profile"
 
   uname_s="$(uname -s)"
-  if [ "$uname_s" = "Darwin" ]; then
+if [ "$uname_s" = "Darwin" ]; then
     launchctl setenv HTTP_PROXY "$HTTP_PROXY"
     launchctl setenv HTTPS_PROXY "$HTTPS_PROXY"
     launchctl setenv ALL_PROXY "$ALL_PROXY"
@@ -90,6 +90,19 @@ Environment=NODE_USE_ENV_PROXY=$NODE_USE_ENV_PROXY
 EOF
       systemctl --user daemon-reload >/dev/null 2>&1 || true
     fi
+fi
+}
+
+require_runtime_bins() {
+  missing=0
+  for bin in openclaw curl node; do
+    if ! command -v "$bin" >/dev/null 2>&1; then
+      log "错误: 缺少必需命令 $bin"
+      missing=1
+    fi
+  done
+  if [ "$missing" -ne 0 ]; then
+    exit 1
   fi
 }
 
@@ -267,6 +280,7 @@ final_validate() {
   openclaw agent --agent main --message "Reply with OK only." --json
 }
 
+require_runtime_bins
 persist_runtime_env
 install_auth_profile
 merge_model_patch

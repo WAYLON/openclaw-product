@@ -48,13 +48,14 @@ run_install() {
         [ "$required" = "true" ] && return 1
         return 0
       fi
-      if ! clawhub install "$package"; then
-        status=$?
+      clawhub install "$package" || status=$?
+      if [ "$status" -ne 0 ]; then
+        echo "安装命令失败: $name (clawhub install $package)"
       fi
       ;;
     npx)
       if [ -n "$skill" ] && [ "$skill" != "null" ]; then
-        if ! node - "$package" "$skill" "$args_json" <<'NODE'
+        node - "$package" "$skill" "$args_json" <<'NODE' || status=$?
 const { spawnSync } = require('child_process');
 const [pkg, skill, argsJson] = process.argv.slice(2);
 const extraArgs = argsJson ? JSON.parse(argsJson) : [];
@@ -65,11 +66,11 @@ const result = spawnSync(
 );
 process.exit(result.status ?? 1);
 NODE
-        then
-          status=$?
+        if [ "$status" -ne 0 ]; then
+          echo "安装命令失败: $name (npx skills add $package --skill $skill)"
         fi
       else
-        if ! node - "$package" "$args_json" <<'NODE'
+        node - "$package" "$args_json" <<'NODE' || status=$?
 const { spawnSync } = require('child_process');
 const [pkg, argsJson] = process.argv.slice(2);
 const extraArgs = argsJson ? JSON.parse(argsJson) : [];
@@ -80,8 +81,8 @@ const result = spawnSync(
 );
 process.exit(result.status ?? 1);
 NODE
-        then
-          status=$?
+        if [ "$status" -ne 0 ]; then
+          echo "安装命令失败: $name (npx skills add $package)"
         fi
       fi
       ;;

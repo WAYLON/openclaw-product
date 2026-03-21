@@ -143,6 +143,7 @@ openclaw skills check
 
 如果你部署的是 LangLang 版，还要确认：
 
+- `stock-research-core-langlang` 已被识别
 - `jqdata-playbook` 已被识别
 
 如果你还额外安装了 `jqdata-research`，也要确认它处于可用状态。
