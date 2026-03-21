@@ -39,6 +39,7 @@
   - `check_jqdatasdk.py`
   - `check_jq_auth.py`
   - `check_min_get_price.py`
+  - `jq_backtest_buy1430_sell1000.py`
 
 ## 推荐安装方式
 
@@ -85,3 +86,22 @@ python3 stocks/openclaw-stock-pack-langlang/scripts/check_min_get_price.py
 - SDK 是否可导入
 - 聚宽认证是否通过
 - 最小 `get_price` 链路是否可用
+
+## LangLang 内置量化回测脚本
+
+当前 LangLang 专用版已内置一份聚宽量化脚本：
+
+- `stocks/openclaw-stock-pack-langlang/scripts/jq_backtest_buy1430_sell1000.py`
+
+脚本逻辑：
+
+- 当日 `14:30` 满足 9 个条件后买入
+- 下一交易日 `10:00` 卖出
+- 输出总体收益统计
+- 按上证指数 `14:30` 涨跌幅环境分组统计
+
+这个脚本适合：
+
+- LangLang 自己跑聚宽回测
+- 技术安装人员做策略样板交付
+- 后续继续演化成更多 LangLang 专属量化脚本
