@@ -66,7 +66,7 @@
 - 聚宽 / JQData 账号或环境变量
 - `QVERIS_API_KEY`
 - LangLang 本机脚本路径
-- 同花顺或其他终端接入方式
+- 是否通过 `qveris.ai` 调用同花顺工具能力
 
 这些内容应只保留在 LangLang 机器本地。
 
