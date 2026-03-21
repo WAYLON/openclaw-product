@@ -17,3 +17,5 @@ secrets/
 
 # local cache
 .cache/
+__pycache__/
+*.pyc
