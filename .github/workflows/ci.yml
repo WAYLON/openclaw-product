@@ -28,6 +28,9 @@ jobs:
       - name: Quality check
         run: python scripts/quality_check.py
 
+      - name: Bootstrap platform state
+        run: python installer/bootstrap_project.py run --force
+
       - name: Validate bootstrap
         run: python installer/bootstrap_project.py check
 
