@@ -21,12 +21,8 @@ package:
     - docs/faq.md
     - docs/examples.md
     - docs/image-plan.md
-  required_keys:
-    - chatwoot_api_key
-    - uvdesk_api_key
-    - espocrm_api_key
-    - formbricks_api_key
-    - calcom_api_key
+  # 当前专业包可先安装；客服台、CRM、问卷与预约平台凭证按需初始化。
+  required_keys: []
   supports:
     independent_install: true
     independent_enable: true

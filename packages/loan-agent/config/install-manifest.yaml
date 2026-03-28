@@ -21,12 +21,8 @@ package:
     - docs/faq.md
     - docs/examples.md
     - docs/image-plan.md
-  required_keys:
-    - formbricks_api_key
-    - espocrm_api_key
-    - calcom_api_key
-    - documenso_api_key
-    - ocr_service_key
+  # 当前专业包可先安装；表单、CRM、预约、签署与 OCR 凭证按需初始化。
+  required_keys: []
   supports:
     independent_install: true
     independent_enable: true

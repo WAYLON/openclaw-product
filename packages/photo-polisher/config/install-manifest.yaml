@@ -21,10 +21,8 @@ package:
     - docs/faq.md
     - docs/examples.md
     - docs/image-plan.md
-  required_keys:
-    - gfpgan_api_key
-    - realesrgan_api_key
-    - rembg_service_key
+  # 当前专业包可先安装；图像处理引擎或外部服务凭证按需初始化。
+  required_keys: []
   supports:
     independent_install: true
     independent_enable: true

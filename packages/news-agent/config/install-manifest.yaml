@@ -21,10 +21,8 @@ package:
     - docs/faq.md
     - docs/examples.md
     - docs/image-plan.md
-  required_keys:
-    - rsshub_token
-    - cms_api_key
-    - tavily_api_key
+  # 当前专业包可先安装；订阅源、发布后台与联网增强凭证按需初始化。
+  required_keys: []
   supports:
     independent_install: true
     independent_enable: true

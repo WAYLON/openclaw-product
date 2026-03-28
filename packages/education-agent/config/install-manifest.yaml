@@ -21,12 +21,8 @@ package:
     - docs/faq.md
     - docs/examples.md
     - docs/image-plan.md
-  required_keys:
-    - openmaic_api_key
-    - openmaic_asr_api_key
-    - openmaic_tts_api_key
-    - quizzle_api_key
-    - moodle_token
+  # 当前专业包可先安装；语音、题库与 LMS 凭证按需初始化。
+  required_keys: []
   supports:
     independent_install: true
     independent_enable: true

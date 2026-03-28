@@ -21,11 +21,8 @@ package:
     - docs/faq.md
     - docs/examples.md
     - docs/image-plan.md
-  required_keys:
-    - documenso_api_key
-    - formbricks_api_key
-    - ocr_service_key
-    - n8n_api_key
+  # 当前专业包可先安装；OCR、审批、签署与自动化流转凭证按需初始化。
+  required_keys: []
   supports:
     independent_install: true
     independent_enable: true

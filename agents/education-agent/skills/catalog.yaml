@@ -1,5 +1,6 @@
 - id: web-access
   source: 本 Agent 本地基础技能
+  delivery_status: 已内置
   launch_recommendation: 默认启用
   risk_level: 低
   needs_key: 否
@@ -7,6 +8,7 @@
   description_zh: 负责联网搜索、网页访问、登录后网页操作与动态页面读取。
 - id: summarize
   source: 本 Agent 本地基础技能
+  delivery_status: 已内置
   launch_recommendation: 默认启用
   risk_level: 低
   needs_key: 否
@@ -14,6 +16,7 @@
   description_zh: 负责长文本、网页、材料和多来源内容的中文摘要与结构化整理。
 - id: benos-memory-core
   source: 本 Agent 本地基础技能
+  delivery_status: 已内置
   launch_recommendation: 默认启用
   risk_level: 低
   needs_key: 否
@@ -21,6 +24,7 @@
   description_zh: 负责本 Agent 的长期记忆、上下文续接与复盘沉淀。
 - id: ontology
   source: 本 Agent 本地基础技能
+  delivery_status: 已内置
   launch_recommendation: 默认启用
   risk_level: 低
   needs_key: 否
@@ -28,34 +32,39 @@
   description_zh: 负责本 Agent 的实体、关系、术语和知识结构整理。
 - id: lesson-topic-planner
   source: OpenMAIC
+  delivery_status: 需外部配置
   launch_recommendation: 建议首发
   risk_level: 低
   needs_key: 否
-  runtime_requirements: 无
+  runtime_requirements: 需补充教学服务配置
   description_zh: 按教学目标拆解课题与课时。
 - id: lesson-outline-generator
   source: OpenMAIC
+  delivery_status: 需外部配置
   launch_recommendation: 建议首发
   risk_level: 低
   needs_key: 否
-  runtime_requirements: 无
+  runtime_requirements: 需补充教学服务配置
   description_zh: 生成章节、重点、难点、互动节点。
 - id: slide-class-generator
   source: OpenMAIC / word-docx
+  delivery_status: 仅规划
   launch_recommendation: 建议首发
   risk_level: 低
   needs_key: 否
-  runtime_requirements: 文档导出
+  runtime_requirements: 规划态，待补充课件导出链路
   description_zh: 产出可讲授的中文课件草稿。
 - id: quiz-generator
   source: Quizzle / OpenMAIC
+  delivery_status: 需第三方平台
   launch_recommendation: 建议首发
   risk_level: 低
   needs_key: 否
-  runtime_requirements: 无
+  runtime_requirements: 需第三方题库或课堂平台
   description_zh: 生成单选、多选、判断、问答题。
 - id: live-quiz-runtime
   source: Quizzle
+  delivery_status: 需第三方平台
   launch_recommendation: 建议首发
   risk_level: 中
   needs_key: 是
@@ -63,6 +72,7 @@
   description_zh: 课堂实时答题、抢答、排名。
 - id: practice-exam-engine
   source: Quizzle / Moodle
+  delivery_status: 需第三方平台
   launch_recommendation: 建议首发
   risk_level: 低
   needs_key: 是
@@ -70,13 +80,15 @@
   description_zh: 构建练习卷、章节测、模拟测。
 - id: interactive-classroom-builder
   source: OpenMAIC
+  delivery_status: 需外部配置
   launch_recommendation: 建议首发
   risk_level: 中
   needs_key: 是
-  runtime_requirements: 浏览器 / 服务
+  runtime_requirements: 需补充课堂服务配置
   description_zh: 构建互动课堂活动流程。
 - id: teaching-material-parser
   source: MinerU / PaddleOCR
+  delivery_status: 需外部配置
   launch_recommendation: 建议首发
   risk_level: 低
   needs_key: 否
@@ -84,13 +96,15 @@
   description_zh: 解析课件、讲义、试卷 PDF。
 - id: study-path-advisor
   source: OpenMAIC / Moodle
+  delivery_status: 需外部配置
   launch_recommendation: 建议首发
   risk_level: 低
   needs_key: 否
-  runtime_requirements: 无
+  runtime_requirements: 需补充教学服务配置
   description_zh: 按学生目标推荐学习路径。
 - id: assignment-generator
   source: OpenMAIC / Moodle
+  delivery_status: 需第三方平台
   launch_recommendation: 建议首发
   risk_level: 低
   needs_key: 是
@@ -98,20 +112,23 @@
   description_zh: 生成作业与提交说明。
 - id: teacher-ta-mode
   source: OpenMAIC
+  delivery_status: 需外部配置
   launch_recommendation: 建议首发
   risk_level: 低
   needs_key: 否
-  runtime_requirements: 无
+  runtime_requirements: 需补充教学服务配置
   description_zh: 老师视角的课堂助手与课后总结助手。
 - id: class-exporter
   source: Moodle / word-docx / excel-xlsx
+  delivery_status: 仅规划
   launch_recommendation: 建议首发
   risk_level: 低
   needs_key: 是
-  runtime_requirements: 服务 / 文档
+  runtime_requirements: 规划态，待补充导出与平台同步链路
   description_zh: 导出课件、题库、作业、课堂记录。
 - id: classroom-speech-transcriber
   source: OpenMAIC / PaddleOCR
+  delivery_status: 需外部配置
   launch_recommendation: 建议首发
   risk_level: 中
   needs_key: 是
@@ -119,6 +136,7 @@
   description_zh: 将课堂语音、老师串讲、学生口语转为可检索的中文课堂记录。
 - id: lesson-voice-narrator
   source: OpenMAIC
+  delivery_status: 需外部配置
   launch_recommendation: 建议首发
   risk_level: 低
   needs_key: 是
@@ -126,6 +144,7 @@
   description_zh: 将讲义、提纲、提示词转成可播报的中文课堂语音稿。
 - id: oral-practice-coach
   source: OpenMAIC / Quizzle
+  delivery_status: 需外部配置
   launch_recommendation: 建议首发
   risk_level: 中
   needs_key: 是
