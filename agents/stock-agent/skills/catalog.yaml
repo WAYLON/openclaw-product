@@ -94,6 +94,14 @@
   needs_key: 否
   runtime_requirements: 本地存储
   description_zh: 维护观察池、标签、备注和优先级。
+- id: stock-smart-screening
+  source: qveris-official / 同花顺智能选股
+  delivery_status: 需外部配置
+  launch_recommendation: 建议首发
+  risk_level: 中
+  needs_key: 是
+  runtime_requirements: 需接入 qveris-official 或同花顺智能选股相关外部能力
+  description_zh: 按筛选条件输出候选股票、入选理由与后续观察建议。
 - id: stock-price-alert
   source: stock-monitor
   delivery_status: 需外部配置
