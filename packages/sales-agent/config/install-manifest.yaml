@@ -1,0 +1,34 @@
+package:
+  id: sales-agent
+  display_name: 客服销售专业包
+  language: zh-CN
+  summary: FAQ、线索识别、跟进推进、预约转化与记录沉淀
+  install_mode: parallel_agent_package
+  requires:
+    platform_initialized: true
+    docs_complete: true
+  includes:
+    - agent.yaml
+    - soul.yaml
+    - prompts/
+    - skills/catalog.yaml
+    - policies/default_open_profile.yaml
+    - policies/restricted_profile.yaml
+    - policies/high_risk_profile.yaml
+    - docs/quickstart.md
+    - docs/user-guide.md
+    - docs/trainer-guide.md
+    - docs/faq.md
+    - docs/examples.md
+    - docs/image-plan.md
+  required_keys:
+    - chatwoot_api_key
+    - uvdesk_api_key
+    - espocrm_api_key
+    - formbricks_api_key
+    - calcom_api_key
+  supports:
+    independent_install: true
+    independent_enable: true
+    independent_upgrade: true
+    independent_offline: true

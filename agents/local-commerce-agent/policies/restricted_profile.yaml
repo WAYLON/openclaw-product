@@ -1,0 +1,12 @@
+profile: restricted_profile
+profile_goal: 进入生产后逐步收紧权限
+browser_assist: false
+dangerous_filesystem: false
+auto_external_write: false
+requires_explicit_secret_scope: true
+manual_review_required_for:
+  - 不允许自动批量对外承诺优惠。
+  - 订单或核销相关动作需要外部系统确认。
+notes: |
+  该策略用于从首发演示态切换到生产审慎态。
+  默认仍保留教学和演示所需的主要能力，但会限制高风险自动写入、外发和不可逆动作。

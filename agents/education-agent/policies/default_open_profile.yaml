@@ -1,0 +1,17 @@
+profile: default_open_profile
+profile_goal: 首发优先保证可安装、可演示、可教学、可验证
+default_open:
+  document_export: true
+  browser_assist: true
+  channel_reply: true
+  docs_packaging: true
+  local_agent_skills: true
+  direct_skill_call: true
+manual_guard:
+  high_risk_actions: true
+restricted:
+- auto_trading
+- credit_decision
+- auto_sign
+- bulk_outreach
+- dangerous_filesystem

@@ -1,0 +1,343 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import os
+import argparse
+import json
+import sys
+from datetime import datetime
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent
+VENV_PYTHON = ROOT / ".venv" / "bin" / "python"
+
+if VENV_PYTHON.exists() and Path(sys.executable).resolve() != VENV_PYTHON.resolve():
+    os.execv(str(VENV_PYTHON), [str(VENV_PYTHON), str(Path(__file__).resolve()), *sys.argv[1:]])
+
+from installer.agent_installer import AgentInstaller, InstallRequest
+
+
+STATE_DIR = ROOT / ".platform"
+AGENTS_DIR = STATE_DIR / "agents"
+WORKSPACES_DIR = STATE_DIR / "workspaces"
+SECRETS_DIR = STATE_DIR / "secrets"
+RUNTIME_FILE = STATE_DIR / "runtime.json"
+
+
+def now_iso() -> str:
+    return datetime.now().isoformat(timespec="seconds")
+
+
+def ensure_state() -> None:
+    for path in [STATE_DIR, AGENTS_DIR, WORKSPACES_DIR, SECRETS_DIR]:
+        path.mkdir(parents=True, exist_ok=True)
+
+
+def write_json(path: Path, payload: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def read_json(path: Path) -> dict:
+    if not path.exists():
+        return {}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def package_exists(agent_id: str) -> bool:
+    return (ROOT / "packages" / agent_id).exists() and (ROOT / "agents" / agent_id).exists()
+
+
+def cmd_init(args: argparse.Namespace) -> int:
+    ensure_state()
+    write_json(
+        STATE_DIR / "platform.json",
+        {
+            "initialized_at": now_iso(),
+            "default_model": {
+                "provider": "codex",
+                "model": "GPT-5.4",
+                "reasoning_effort": "medium",
+            },
+            "permission_profile": "default_open_profile",
+        },
+    )
+    print("平台初始化完成")
+    print(f"状态目录: {STATE_DIR}")
+    return 0
+
+
+def cmd_start(args: argparse.Namespace) -> int:
+    ensure_state()
+    write_json(
+        RUNTIME_FILE,
+        {
+            "started": True,
+            "started_at": now_iso(),
+            "mode": "mvp-skeleton",
+            "message": "当前为平台安装与交付骨架，可继续接入真实运行时。",
+        },
+    )
+    print("平台已启动（MVP 骨架模式）")
+    return 0
+
+
+def cmd_status(args: argparse.Namespace) -> int:
+    runtime = read_json(RUNTIME_FILE)
+    if not runtime:
+        print("项目模板状态尚未启动，请先执行：./agent-platform start")
+        return 1
+    print(json.dumps(runtime, ensure_ascii=False, indent=2))
+    return 0
+
+
+def cmd_doctor(args: argparse.Namespace) -> int:
+    ensure_state()
+    issues = []
+    if not (ROOT / "docs" / "architecture" / "平台总体架构与交付设计.md").exists():
+        issues.append("缺少平台总设计文档")
+    agent_count = len(list((ROOT / "agents").glob("*/agent.yaml")))
+    if agent_count < 8:
+        issues.append("Agent 数量不足 8 个")
+    if issues:
+        print("检查未通过：")
+        for issue in issues:
+            print(f"- {issue}")
+        return 1
+    print("检查通过")
+    print(f"- agent 数量: {agent_count}")
+    print(f"- docs 目录: {(ROOT / 'docs').exists()}")
+    return 0
+
+
+def cmd_agent_install(args: argparse.Namespace) -> int:
+    ensure_state()
+    agent_id = args.agent_id
+    if not package_exists(agent_id):
+        print(f"未找到 Agent 包：{agent_id}。请先确认 packages/{agent_id} 和 agents/{agent_id} 都存在。")
+        return 1
+    installer = AgentInstaller(ROOT)
+    result = installer.install(
+        InstallRequest(
+            package_id=agent_id,
+            tenant_id="default",
+            channel_instance_id="",
+            target_agent_id=agent_id,
+        )
+    )
+    write_json(
+        AGENTS_DIR / f"{agent_id}.json",
+        {
+            "agent_id": agent_id,
+            "installed": True,
+            "enabled": True,
+            "installed_at": now_iso(),
+            "package_dir": str(ROOT / "packages" / agent_id),
+            "source_agent_dir": str(ROOT / "agents" / agent_id),
+            "workspace_dir": str(result.workspace_dir),
+            "install_mode": "openclaw-workspace-template",
+        },
+    )
+    print(f"已安装 Agent：{agent_id}")
+    print(f"工作区模板: {result.workspace_dir}")
+    return 0
+
+
+def cmd_agent_enable(args: argparse.Namespace, enabled: bool) -> int:
+    ensure_state()
+    target = AGENTS_DIR / f"{args.agent_id}.json"
+    if not target.exists():
+        print(f"Agent 未安装：{args.agent_id}")
+        return 1
+    payload = read_json(target)
+    payload["enabled"] = enabled
+    payload["updated_at"] = now_iso()
+    write_json(target, payload)
+    print(f"{'启用' if enabled else '停用'}完成：{args.agent_id}")
+    return 0
+
+
+def cmd_agent_list(args: argparse.Namespace) -> int:
+    ensure_state()
+    records = sorted(AGENTS_DIR.glob("*.json"))
+    if not records:
+        print("当前没有已安装 Agent")
+        return 0
+    for path in records:
+        payload = read_json(path)
+        status = "enabled" if payload.get("enabled") else "disabled"
+        workspace_dir = payload.get("workspace_dir", "-")
+        print(f"{payload.get('agent_id')}  {status}  {workspace_dir}")
+    return 0
+
+
+def cmd_agent_uninstall(args: argparse.Namespace) -> int:
+    ensure_state()
+    target = AGENTS_DIR / f"{args.agent_id}.json"
+    if not target.exists():
+        print(f"Agent 未安装：{args.agent_id}")
+        return 1
+    installer = AgentInstaller(ROOT)
+    removed_workspace = installer.uninstall_workspace(args.agent_id)
+    target.unlink()
+    print(f"已卸载 Agent：{args.agent_id}")
+    print(f"已清理工作区模板：{removed_workspace}")
+    return 0
+
+
+def secret_path(scope: str, target: str) -> Path:
+    return SECRETS_DIR / scope / f"{target}.json"
+
+
+def cmd_secret_set(args: argparse.Namespace) -> int:
+    ensure_state()
+    target = secret_path(args.scope, args.target)
+    payload = read_json(target)
+    payload[args.key] = args.value
+    payload["updated_at"] = now_iso()
+    write_json(target, payload)
+    print(f"已写入密钥：scope={args.scope} target={args.target} key={args.key}")
+    return 0
+
+
+def cmd_secret_list(args: argparse.Namespace) -> int:
+    ensure_state()
+    target = secret_path(args.scope, args.target)
+    payload = read_json(target)
+    if not payload:
+        print("当前没有已配置密钥")
+        return 0
+    for key in sorted(k for k in payload.keys() if k != "updated_at"):
+        print(f"{key}=***")
+    return 0
+
+
+def cmd_secret_remove(args: argparse.Namespace) -> int:
+    ensure_state()
+    target = secret_path(args.scope, args.target)
+    payload = read_json(target)
+    if args.key not in payload:
+        print(f"未找到密钥：{args.key}")
+        return 1
+    payload.pop(args.key, None)
+    payload["updated_at"] = now_iso()
+    write_json(target, payload)
+    print(f"已删除密钥：{args.key}")
+    return 0
+
+
+def cmd_openclaw_export(args: argparse.Namespace) -> int:
+    ensure_state()
+    target = AGENTS_DIR / f"{args.agent_id}.json"
+    if not target.exists():
+        print(f"Agent 模板未安装：{args.agent_id}。请先执行 ./agent-platform agent install {args.agent_id}")
+        return 1
+    from installer.sync_to_openclaw import sync_workspace
+
+    openclaw_home = Path(args.openclaw_home).expanduser()
+    parallel_root = Path(args.parallel_root).expanduser() if args.parallel_root else openclaw_home / "parallel-agents"
+    result = sync_workspace(args.agent_id, openclaw_home, parallel_root)
+
+    print("已把模板同步到本机 OpenClaw 多 Agent 目录")
+    print(f"- target_workspace: {result['target_workspace']}")
+    print(f"- target_state_dir: {result['target_state_dir']}")
+    print("下一步官方命令：")
+    print(
+        f"openclaw agents add --agent {args.agent_id} "
+        f"--workspace {result['target_workspace']} --agent-dir {result['target_state_dir']}"
+    )
+    print(
+        f"openclaw agents set-identity --agent {args.agent_id} "
+        f"--identity-file {result['identity_file']}"
+    )
+    return 0
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="agent-platform",
+        description="基于 OpenClaw 的平行 Agent 模板与同步 CLI",
+    )
+    sub = parser.add_subparsers(dest="command", required=True)
+
+    sub.add_parser("init", help="初始化项目模板状态目录和默认配置")
+    sub.add_parser("start", help="启动项目模板状态")
+    sub.add_parser("status", help="查看项目模板当前状态")
+    sub.add_parser("doctor", help="检查项目模板是否完整")
+
+    agent = sub.add_parser("agent", help="安装、启用、停用、查看、卸载 Agent 模板")
+    agent_sub = agent.add_subparsers(dest="agent_command", required=True)
+    install = agent_sub.add_parser("install", help="安装一个专业 Agent 模板")
+    install.add_argument("agent_id")
+    enable = agent_sub.add_parser("enable", help="启用一个已安装 Agent 模板")
+    enable.add_argument("agent_id")
+    disable = agent_sub.add_parser("disable", help="停用一个已安装 Agent 模板")
+    disable.add_argument("agent_id")
+    agent_sub.add_parser("list", help="查看已安装 Agent 模板")
+    uninstall = agent_sub.add_parser("uninstall", help="卸载一个已安装 Agent 模板")
+    uninstall.add_argument("agent_id")
+
+    secret = sub.add_parser("secret", help="管理平台 / 租户 / Agent / 渠道 / 账号级密钥")
+    secret_sub = secret.add_subparsers(dest="secret_command", required=True)
+    secret_set = secret_sub.add_parser("set", help="写入一个密钥")
+    secret_set.add_argument("target")
+    secret_set.add_argument("key")
+    secret_set.add_argument("--value", required=True)
+    secret_set.add_argument("--scope", choices=["platform", "tenant", "agent", "channel", "account"], default="agent")
+    secret_list = secret_sub.add_parser("list", help="查看某个作用域下已配置的密钥键名")
+    secret_list.add_argument("target")
+    secret_list.add_argument("--scope", choices=["platform", "tenant", "agent", "channel", "account"], default="agent")
+    secret_remove = secret_sub.add_parser("remove", help="删除一个密钥")
+    secret_remove.add_argument("target")
+    secret_remove.add_argument("key")
+    secret_remove.add_argument("--scope", choices=["platform", "tenant", "agent", "channel", "account"], default="agent")
+
+    openclaw = sub.add_parser("openclaw", help="把项目模板同步到本机 OpenClaw 多 Agent 目录")
+    openclaw_sub = openclaw.add_subparsers(dest="openclaw_command", required=True)
+    export = openclaw_sub.add_parser("export", help="把某个已安装 Agent 模板同步到本机 OpenClaw 目录")
+    export.add_argument("agent_id")
+    export.add_argument("--openclaw-home", default=str(Path.home() / ".openclaw"))
+    export.add_argument("--parallel-root", default="")
+
+    return parser
+
+
+def main() -> int:
+    parser = build_parser()
+    args = parser.parse_args()
+
+    if args.command == "init":
+        return cmd_init(args)
+    if args.command == "start":
+        return cmd_start(args)
+    if args.command == "status":
+        return cmd_status(args)
+    if args.command == "doctor":
+        return cmd_doctor(args)
+    if args.command == "agent":
+        if args.agent_command == "install":
+            return cmd_agent_install(args)
+        if args.agent_command == "enable":
+            return cmd_agent_enable(args, True)
+        if args.agent_command == "disable":
+            return cmd_agent_enable(args, False)
+        if args.agent_command == "list":
+            return cmd_agent_list(args)
+        if args.agent_command == "uninstall":
+            return cmd_agent_uninstall(args)
+    if args.command == "secret":
+        if args.secret_command == "set":
+            return cmd_secret_set(args)
+        if args.secret_command == "list":
+            return cmd_secret_list(args)
+        if args.secret_command == "remove":
+            return cmd_secret_remove(args)
+    if args.command == "openclaw":
+        if args.openclaw_command == "export":
+            return cmd_openclaw_export(args)
+    parser.print_help()
+    return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

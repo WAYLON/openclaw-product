@@ -1,0 +1,45 @@
+id: photo-polisher
+name: 像素修图师
+package_name: 像素修图师专业包
+language: zh-CN
+model:
+  provider: codex
+  model: GPT-5.4
+  reasoning_effort: low
+  profile: vision_orchestrator
+  fallback_chain:
+  - provider: codex
+    model: GPT-5.4
+    reasoning_effort: medium
+  - provider: local-openai
+    model: gpt-5.4
+    reasoning_effort: low
+runtime:
+  memory_namespace: memory/photo-polisher
+  permission_profile: default_open_profile
+docs:
+  quickstart: docs/quickstart.md
+  user_guide: docs/user-guide.md
+  trainer_guide: docs/trainer-guide.md
+  faq: docs/faq.md
+  examples: docs/examples.md
+skills:
+  layout: direct-local
+  catalog: skills/catalog.yaml
+  entries:
+  - web-access
+  - summarize
+  - benos-memory-core
+  - ontology
+  - face-restore
+  - image-upscale
+  - old-photo-repair
+  - portrait-enhance
+  - product-photo-cleanup
+  - background-remove
+  - id-photo-standardize
+  - image-batch-enhance
+  - low-light-fix
+  - blur-recovery
+  - image-precheck
+  - before-after-packager

@@ -1,0 +1,33 @@
+package:
+  id: legal-agent
+  display_name: 法务合同流程专业包
+  language: zh-CN
+  summary: 合同解析、条款比对、审批流转、签署跟踪与证据打包
+  install_mode: parallel_agent_package
+  requires:
+    platform_initialized: true
+    docs_complete: true
+  includes:
+    - agent.yaml
+    - soul.yaml
+    - prompts/
+    - skills/catalog.yaml
+    - policies/default_open_profile.yaml
+    - policies/restricted_profile.yaml
+    - policies/high_risk_profile.yaml
+    - docs/quickstart.md
+    - docs/user-guide.md
+    - docs/trainer-guide.md
+    - docs/faq.md
+    - docs/examples.md
+    - docs/image-plan.md
+  required_keys:
+    - documenso_api_key
+    - formbricks_api_key
+    - ocr_service_key
+    - n8n_api_key
+  supports:
+    independent_install: true
+    independent_enable: true
+    independent_upgrade: true
+    independent_offline: true

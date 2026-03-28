@@ -1,0 +1,32 @@
+package:
+  id: photo-polisher
+  display_name: 像素修图师专业包
+  language: zh-CN
+  summary: 修图、超分、背景移除、老照片修复与交付说明
+  install_mode: parallel_agent_package
+  requires:
+    platform_initialized: true
+    docs_complete: true
+  includes:
+    - agent.yaml
+    - soul.yaml
+    - prompts/
+    - skills/catalog.yaml
+    - policies/default_open_profile.yaml
+    - policies/restricted_profile.yaml
+    - policies/high_risk_profile.yaml
+    - docs/quickstart.md
+    - docs/user-guide.md
+    - docs/trainer-guide.md
+    - docs/faq.md
+    - docs/examples.md
+    - docs/image-plan.md
+  required_keys:
+    - gfpgan_api_key
+    - realesrgan_api_key
+    - rembg_service_key
+  supports:
+    independent_install: true
+    independent_enable: true
+    independent_upgrade: true
+    independent_offline: true

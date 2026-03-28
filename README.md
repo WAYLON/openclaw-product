@@ -1,185 +1,127 @@
-# OpenClaw 交付仓库
+# OpenClaw Parallel Agent Platform
 
-这个仓库是给内部技术人员、实施人员、交付人员使用的。
+这是一个基于 OpenClaw 的平行 Agent 内容模板与交付工程，不再只是概念骨架。
 
-它的用途不是给客户阅读，而是帮助技术人员：
+当前安装口径：
+- OpenClaw 本体、Agent 注册、渠道绑定：优先使用官方命令
+- `agent-platform`：仅用于模板生成、工作区同步和交付自动化，不替代官方安装流程
 
-- 安装 OpenClaw 本体
-- 安装基础技能层
-- 叠加行业包
-- 叠加客户定制包
-- 做本地验证和交付验收
+## 设计原则
+- 不设业务总控 Agent
+- 所有业务 Agent 平行独立
+- 一个渠道实例只绑定一个 Agent
+- 基础 skill 共享，灵魂、策略、记忆、文档独立
+- 所有对外文档、Soul、Prompt、教程默认中文
 
-## 本体安装前提
+## 目录说明
 
-这个仓库不是 OpenClaw 本体安装源。
+### 顶层关键文档
+- [docs/architecture/平台总体架构与交付设计.md](/Users/waylon/Desktop/openclaw-product/docs/architecture/平台总体架构与交付设计.md)：总设计文档，讲架构原则、分层边界、8 个 Agent 的总体设计。
+- [docs/guides/老师讲解总提纲.md](/Users/waylon/Desktop/openclaw-product/docs/guides/老师讲解总提纲.md)：给老师和实施同学的讲解顺序总提纲。
 
-正确顺序是：
-
-1. 先从 OpenClaw 官网或官方文档完成本体安装
-2. 先完成 `~/.openclaw` 初始化
-3. 再使用本仓库安装 `core`
-4. 再安装行业包或客户专版
-
-## 语言默认规则
-
-这个仓库默认全部使用中文。
-
-例外只包括：
-
-- 命令
-- 路径
-- 环境变量
-- 外部仓库名
-- 外部技能名
-- API 字段名
-
-也就是说：
-
-- 文档默认中文
-- 工作区默认中文
-- 输出模板默认中文
-- 安装说明默认中文
-
-不要再额外混入英文说明。
-
-设计目标只有三个：
-
-1. 技术人员知道先装什么、再装什么
-2. 不同行业可以平行扩展，互不污染
-3. 每个产品包都能独立交付，不依赖口头记忆
-
-## 安装人员入口
-
-内部技术安装人员优先看：
-
-- `docs/技术交付SOP.md`
-- `core/README.md`
-- `core/安装-openclaw-本体.md`
-
-## 仓库结构
-
+### 顶层目录作用
 - `core/`
-  - OpenClaw 公共底座
-  - 放本体安装、基础技能预设、初始化、通用环境变量模板、从 0 部署说明
-- `stocks/`
-  - 股票相关产品包
-- `education/`
-  - 教育相关产品包
-- `media/`
-  - 音视频与媒体发送相关产品包
+  - 放运行底座和公共能力。
+  - 主要包括配置加载、注册表、运行时基础类、密钥初始化守卫等。
+  - 这里解决“怎么跑”，不放业务人格和业务判断。
+
+- `channels/`
+  - 放渠道接入代码。
+  - 当前是飞书、企微、钉钉、webhook、webchat、api 等 connector。
+  - 它们只负责接入和转发，不负责判断该用哪个业务 Agent。
+
+- `agents/`
+  - 放 8 个专业 Agent 的源模板。
+  - 每个 Agent 目录里都有：
+    - `agent.yaml`
+    - `soul.yaml`
+    - `prompts/`
+    - `skills/`
+    - `policies/`
+    - `knowledge/`
+    - `docs/`
+    - `examples/`
+  - 这是“专业脑子”的主目录。
+
+- `agents/<agent>/skills/`
+  - 放这个 Agent 自己的全部技能。
+  - 现在不再单独做 adapter 层，也不再保留共享技能目录抽象。
+  - 每个 skill 都直接放在对应 Agent 里，方便客户理解、方便独立交付。
+
+- `packages/`
+  - 放最终交付包。
+  - 每个专业包目录对应一个 Agent，里面有：
+    - `README.md`
+    - `config/install-manifest.yaml`
+    - `docs/quickstart.md`
+    - `docs/user-guide.md`
+    - `docs/trainer-guide.md`
+    - `docs/faq.md`
+    - `docs/examples.md`
+  - 这是给客户交付的正式资料入口。
+
+- `installer/`
+  - 放模板同步、导出、校验、打包相关脚本。
+  - 这些脚本不替代官方 OpenClaw 安装，只负责：
+    - 生成模板
+    - 同步到本机 OpenClaw workspace
+    - 校验包结构
+    - 辅助交付
+
 - `docs/`
-  - 项目结构、命名规范、交付规范
+  - 放平台级文档。
+  - 主要包括：
+    - `installation/` 安装与绑定教程
+    - `architecture/` 架构设计说明
+    - `guides/` 老师讲解资料
+    - `delivery/` 交付、版本、实施说明
+
 - `scripts/`
-  - 安装脚本、检查脚本
+  - 放项目级检查脚本。
+  - 当前主要是质量检查和全包校验，不承载业务逻辑。
 
-## 技术人员怎么用这个仓库
+- `.github/`
+  - 放仓库协作与 CI 配置。
+  - 主要包括 GitHub Actions 和 `CODEOWNERS`。
 
-### 情况 1：目标机器还没有 OpenClaw
+- `.platform/`
+  - 放项目运行时状态和模板安装后的内部产物。
+  - 例如：
+    - 已安装 Agent 状态
+    - 模板工作区
+    - 运行状态文件
+  - 这不是 OpenClaw 官方运行目录，而是本项目自己的模板/同步状态目录。
 
-顺序如下：
+- `examples/`
+  - 放平台级示例材料和演示脚本。
+  - 适合实施、销售、老师讲解时快速调用。
 
-1. 阅读 `core/安装-openclaw-本体.md`
-2. 先按 OpenClaw 官网 / 官方文档完成本体安装和 `~/.openclaw` 初始化
-3. 安装 `core/skills` 对应的基础技能预设
-4. 阅读具体行业目录下的产品包说明
-5. 使用 `scripts/install-pack.sh` 安装目标包
+## 企业级工程能力
+- [pyproject.toml](/Users/waylon/Desktop/openclaw-product/pyproject.toml)：项目元数据与依赖声明
+- [requirements.txt](/Users/waylon/Desktop/openclaw-product/requirements.txt)：运行依赖
+- [Makefile](/Users/waylon/Desktop/openclaw-product/Makefile)：统一命令入口
+- [scripts/quality_check.py](/Users/waylon/Desktop/openclaw-product/scripts/quality_check.py)：质量检查
+- [scripts/check_all_packages.py](/Users/waylon/Desktop/openclaw-product/scripts/check_all_packages.py)：全包安装校验
+- [.github/workflows/ci.yml](/Users/waylon/Desktop/openclaw-product/.github/workflows/ci.yml)：持续集成
+- [CONTRIBUTING.md](/Users/waylon/Desktop/openclaw-product/CONTRIBUTING.md)：协作规范
+- [企业级优化说明.md](/Users/waylon/Desktop/openclaw-product/docs/delivery/企业级优化说明.md)：本轮工程化升级说明
+- [版本发布流程.md](/Users/waylon/Desktop/openclaw-product/docs/delivery/版本发布流程.md)：发布前检查流程
 
-### 情况 2：目标机器已经有 OpenClaw
+## 推荐命令
+```bash
+curl -fsSL https://openclaw.ai/install.sh | bash
+openclaw onboard --install-daemon
+openclaw agents add stock-agent
 
-顺序如下：
+make venv
+make bootstrap
+make doctor
+make quality
+make check-packages
+make ci
+```
 
-1. 进入目标行业目录
-2. 阅读对应产品包 `README.md`
-3. 使用 `scripts/install-pack.sh` 选择安装模式
-
-## 当前已有产品
-
-### 股票
-
-- `stocks/openclaw-stock-pack/`
-  - 股票研究行业包
-  - 叠加在 core 基础技能之上
-
-### 教育
-
-- `education/openclaw-education-pack/`
-  - 教育行业基础包
-  - 当前以 OpenMAIC 集成为核心教育能力
-
-### 媒体
-
-- `media/openclaw-av-edit-pack/`
-  - 音视频剪辑行业包
-- `media/openclaw-media-delivery-pack/`
-  - 媒体发送行业包
-
-## 安装原则
-
-所有交付默认分两层：
-
-1. `core`
-2. 行业包 / 客户包
-
-含义：
-
-- `core`
-  - 安装 OpenClaw 本体
-  - 安装基础技能预设
-- 行业包 / 客户包
-  - 安装行业工作区
-  - 安装行业附加技能
-
-这意味着：
-
-- 这个仓库主要是交付侧使用
-- 客户通常只会接触被安装后的 OpenClaw 环境
-- 技术人员不应把整个仓库原样当作客户阅读材料发出去
-
-每个产品包统一支持两种模式：
-
-1. `skills-only`
-2. `full`
-
-含义：
-
-- `skills-only`
-  - 只安装技能
-  - 不改客户现有 `workspace` 个性与规则
-- `full`
-  - 同时安装 `workspace + skills`
-  - 适合客户愿意采用整套工作流
-
-## 安全原则
-
-- 不提交真实 API Key
-- 不提交真实账号密码
-- 不提交客户专属隐私信息
-- 只提交模板、规则、脚本、说明文档
-
-## 先看哪些文档
-
-- `docs/项目结构设计.md`
-- `docs/技术交付说明.md`
-- `docs/产品包规范.md`
-- `docs/默认运行规范.md`
-- `docs/默认交付预设.md`
-- `docs/初始化与人格塑造.md`
-- `docs/接入飞书.md`
-- `docs/接入微信.md`
-- `docs/接入国外模型说明.md`
-- `docs/迁移与常见坑说明.md`
-- `docs/模型配置与切换.md`
-- `docs/OpenClaw-Codex-OAuth修复说明.md`
-- `docs/Codex安装排查说明.md`
-- `core/README.md`
-
-## 后续扩展方式
-
-以后如果要新增行业，直接新增一个平行目录即可，例如：
-
-- `finance/`
-- `sales/`
-- `operations/`
-
-每个行业目录内部继续按“产品包”组织，不要把所有内容堆在根目录。
+推荐顺序：
+1. 先用官方 `openclaw onboard`
+2. 再用官方 `openclaw agents add / set-identity / bind`
+3. 最后用本仓库把专业内容同步进各 Agent workspace

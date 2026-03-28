@@ -1,0 +1,81 @@
+platform_default:
+  provider: codex
+  model: GPT-5.4
+  reasoning_effort: medium
+
+tenant_default:
+  provider: codex
+  model: GPT-5.4
+  reasoning_effort: medium
+
+agents:
+  stock-agent:
+    provider: codex
+    model: GPT-5.4
+    reasoning_effort: medium
+    profile: research_deep
+    fallback_chain:
+      - provider: local-openai
+        model: gpt-5.4
+        reasoning_effort: low
+
+  education-agent:
+    provider: codex
+    model: GPT-5.4
+    reasoning_effort: medium
+    profile: teaching_multimodal
+    fallback_chain:
+      - provider: local-openai
+        model: gpt-5.4
+        reasoning_effort: low
+
+  news-agent:
+    provider: codex
+    model: GPT-5.4
+    reasoning_effort: low
+    profile: brief_fast
+
+  loan-agent:
+    provider: codex
+    model: GPT-5.4
+    reasoning_effort: medium
+    profile: compliance_structured
+
+  local-commerce-agent:
+    provider: codex
+    model: GPT-5.4
+    reasoning_effort: low
+    profile: conversion_fast
+
+  photo-polisher:
+    provider: codex
+    model: GPT-5.4
+    reasoning_effort: low
+    profile: vision_orchestrator
+
+  sales-agent:
+    provider: codex
+    model: GPT-5.4
+    reasoning_effort: low
+    profile: dialogue_conversion
+
+  legal-agent:
+    provider: codex
+    model: GPT-5.4
+    reasoning_effort: high
+    profile: contract_review
+
+channels:
+  stockbot:
+    bound_agent_id: stock-agent
+    model_override:
+      response_style: professional
+  educationbot:
+    bound_agent_id: education-agent
+    model_override:
+      response_style: teacher_friendly
+  salesbot:
+    bound_agent_id: sales-agent
+    model_override:
+      response_style: concise
+      reasoning_effort: low

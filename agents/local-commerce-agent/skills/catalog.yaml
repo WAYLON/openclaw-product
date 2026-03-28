@@ -1,0 +1,112 @@
+- id: web-access
+  source: 本 Agent 本地基础技能
+  launch_recommendation: 默认启用
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 无
+  description_zh: 负责联网搜索、网页访问、登录后网页操作与动态页面读取。
+- id: summarize
+  source: 本 Agent 本地基础技能
+  launch_recommendation: 默认启用
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 无
+  description_zh: 负责长文本、网页、材料和多来源内容的中文摘要与结构化整理。
+- id: benos-memory-core
+  source: 本 Agent 本地基础技能
+  launch_recommendation: 默认启用
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 无
+  description_zh: 负责本 Agent 的长期记忆、上下文续接与复盘沉淀。
+- id: ontology
+  source: 本 Agent 本地基础技能
+  launch_recommendation: 默认启用
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 无
+  description_zh: 负责本 Agent 的实体、关系、术语和知识结构整理。
+- id: product-catalog-query
+  source: Medusa / Saleor
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 是
+  runtime_requirements: 服务 / key
+  description_zh: 查商品、SKU、库存、门店信息。
+- id: store-content-manager
+  source: Strapi / Directus / Payload
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 是
+  runtime_requirements: 服务 / key
+  description_zh: 管理门店介绍、活动说明、FAQ。
+- id: product-faq-answerer
+  source: Strapi / 本 Agent 本地问答技能
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 无
+  description_zh: 回答商品和门店常见问题。
+- id: coupon-offer-guide
+  source: Strapi / Formbricks
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 无
+  description_zh: 解释优惠、券、活动使用方式。
+- id: activity-copy-generator
+  source: 本 Agent 本地生成技能
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 无
+  description_zh: 生成促销文案与上新文案。
+- id: crm-customer-tagging
+  source: EspoCRM
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 是
+  runtime_requirements: 服务 / key
+  description_zh: 打标签、沉淀潜客画像。
+- id: lead-capture-form
+  source: Formbricks
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 是
+  runtime_requirements: 服务 / key
+  description_zh: 收集咨询信息。
+- id: booking-and-arrival-flow
+  source: Cal.com / n8n
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 是
+  runtime_requirements: 服务 / key
+  description_zh: 预约到店、核销前提醒。
+- id: product-image-cleanup
+  source: rembg / 图像外部技能
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: CPU / GPU
+  description_zh: 处理商品展示图。
+- id: background-remove
+  source: rembg
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: CPU / GPU
+  description_zh: 抠图与背景替换。
+- id: order-followup-note
+  source: EspoCRM / Chatwoot
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 是
+  runtime_requirements: 服务 / key
+  description_zh: 记录客户意向与跟进备注。
+- id: promotion-performance-brief
+  source: EspoCRM / summarize / excel-xlsx
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 是
+  runtime_requirements: 服务 / 文档
+  description_zh: 输出活动成效简报。

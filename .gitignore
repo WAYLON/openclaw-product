@@ -1,21 +1,11 @@
-# macOS
-.DS_Store
-
-# local archives
-*.zip
-*.tar
-*.tar.gz
-
-# secrets
-.env
-.env.*
-secrets/
-
-# editor noise
-.idea/
-.vscode/
-
-# local cache
-.cache/
+.platform/
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.DS_Store
+dist/
+build/
+*.egg-info/
+

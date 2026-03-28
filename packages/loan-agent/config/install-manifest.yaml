@@ -1,0 +1,34 @@
+package:
+  id: loan-agent
+  display_name: 助贷专业包
+  language: zh-CN
+  summary: 线索采集、资格预检、材料引导、预约与合规流程交付
+  install_mode: parallel_agent_package
+  requires:
+    platform_initialized: true
+    docs_complete: true
+  includes:
+    - agent.yaml
+    - soul.yaml
+    - prompts/
+    - skills/catalog.yaml
+    - policies/default_open_profile.yaml
+    - policies/restricted_profile.yaml
+    - policies/high_risk_profile.yaml
+    - docs/quickstart.md
+    - docs/user-guide.md
+    - docs/trainer-guide.md
+    - docs/faq.md
+    - docs/examples.md
+    - docs/image-plan.md
+  required_keys:
+    - formbricks_api_key
+    - espocrm_api_key
+    - calcom_api_key
+    - documenso_api_key
+    - ocr_service_key
+  supports:
+    independent_install: true
+    independent_enable: true
+    independent_upgrade: true
+    independent_offline: true

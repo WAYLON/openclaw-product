@@ -1,0 +1,34 @@
+package:
+  id: education-agent
+  display_name: 教育专业包
+  language: zh-CN
+  summary: 备课、题目、讲义解析、语音课堂接入与老师讲解交付
+  install_mode: parallel_agent_package
+  requires:
+    platform_initialized: true
+    docs_complete: true
+  includes:
+    - agent.yaml
+    - soul.yaml
+    - prompts/
+    - skills/catalog.yaml
+    - policies/default_open_profile.yaml
+    - policies/restricted_profile.yaml
+    - policies/high_risk_profile.yaml
+    - docs/quickstart.md
+    - docs/user-guide.md
+    - docs/trainer-guide.md
+    - docs/faq.md
+    - docs/examples.md
+    - docs/image-plan.md
+  required_keys:
+    - openmaic_api_key
+    - openmaic_asr_api_key
+    - openmaic_tts_api_key
+    - quizzle_api_key
+    - moodle_token
+  supports:
+    independent_install: true
+    independent_enable: true
+    independent_upgrade: true
+    independent_offline: true

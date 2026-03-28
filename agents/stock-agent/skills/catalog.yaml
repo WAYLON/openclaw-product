@@ -1,0 +1,112 @@
+- id: web-access
+  source: 本 Agent 本地基础技能
+  launch_recommendation: 默认启用
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 无
+  description_zh: 负责联网搜索、网页访问、登录后网页操作与动态页面读取。
+- id: summarize
+  source: 本 Agent 本地基础技能
+  launch_recommendation: 默认启用
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 无
+  description_zh: 负责长文本、网页、材料和多来源内容的中文摘要与结构化整理。
+- id: benos-memory-core
+  source: 本 Agent 本地基础技能
+  launch_recommendation: 默认启用
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 无
+  description_zh: 负责本 Agent 的长期记忆、上下文续接与复盘沉淀。
+- id: ontology
+  source: 本 Agent 本地基础技能
+  launch_recommendation: 默认启用
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 无
+  description_zh: 负责本 Agent 的实体、关系、术语和知识结构整理。
+- id: stock-symbol-resolver
+  source: TradingAgents-AShare / akshare-stock / Ashare
+  launch_recommendation: 建议首发
+  risk_level: 中
+  needs_key: 否
+  runtime_requirements: 无
+  description_zh: 把中文简称、代码、市场后缀统一解析为标准股票标识。
+- id: stock-realtime-quote
+  source: Ashare / akshare-stock
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 网络
+  description_zh: 查询实时行情、涨跌幅、盘口摘要。
+- id: stock-historical-kline
+  source: Ashare / akshare-stock
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 网络
+  description_zh: 拉取日线、周线、分钟线并生成研究输入。
+- id: stock-fundamental-analysis
+  source: TradingAgents-AShare / stock-analysis
+  launch_recommendation: 建议首发
+  risk_level: 中
+  needs_key: 否
+  runtime_requirements: 网络
+  description_zh: 输出财务指标、估值区间、业务结构摘要。
+- id: stock-technical-analysis
+  source: TradingAgents-AShare / stock-analysis
+  launch_recommendation: 建议首发
+  risk_level: 中
+  needs_key: 否
+  runtime_requirements: 网络
+  description_zh: 做均线、量能、趋势、支撑阻力位分析。
+- id: stock-news-impact-analysis
+  source: TradingAgents-AShare / openclaw-tavily-search
+  launch_recommendation: 建议首发
+  risk_level: 中
+  needs_key: 是
+  runtime_requirements: 网络 / key
+  description_zh: 结合资讯判断事件冲击方向与时效。
+- id: stock-sentiment-analysis
+  source: TradingAgents-AShare / summarize
+  launch_recommendation: 建议首发
+  risk_level: 中
+  needs_key: 是
+  runtime_requirements: 网络 / key
+  description_zh: 抽取舆情情绪，输出乐观、中性、谨慎标签。
+- id: stock-watchlist-manager
+  source: stock-watcher
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 本地存储
+  description_zh: 维护观察池、标签、备注和优先级。
+- id: stock-price-alert
+  source: stock-monitor
+  launch_recommendation: 建议首发
+  risk_level: 中
+  needs_key: 否
+  runtime_requirements: 调度 / 通知
+  description_zh: 对价格、涨跌幅、成交量设置提醒。
+- id: stock-strategy-backtest
+  source: stock-strategy-backtester
+  launch_recommendation: 建议首发
+  risk_level: 中
+  needs_key: 否
+  runtime_requirements: 本地计算
+  description_zh: 回测简单策略并输出收益、回撤、胜率。
+- id: stock-risk-summary
+  source: TradingAgents-AShare
+  launch_recommendation: 建议首发
+  risk_level: 中
+  needs_key: 否
+  runtime_requirements: 无
+  description_zh: 生成仓位、波动、事件、流动性风险摘要。
+- id: stock-research-report-generator
+  source: TradingAgents-AShare / summarize / word-docx / excel-xlsx
+  launch_recommendation: 建议首发
+  risk_level: 中
+  needs_key: 否
+  runtime_requirements: 文档导出
+  description_zh: 输出中文研究简报与讲解提纲。

@@ -1,0 +1,45 @@
+id: local-commerce-agent
+name: 电商 / 本地生活 Agent
+package_name: 电商本地生活专业包
+language: zh-CN
+model:
+  provider: codex
+  model: GPT-5.4
+  reasoning_effort: low
+  profile: conversion_fast
+  fallback_chain:
+  - provider: codex
+    model: GPT-5.4
+    reasoning_effort: medium
+  - provider: local-openai
+    model: gpt-5.4
+    reasoning_effort: low
+runtime:
+  memory_namespace: memory/local-commerce-agent
+  permission_profile: default_open_profile
+docs:
+  quickstart: docs/quickstart.md
+  user_guide: docs/user-guide.md
+  trainer_guide: docs/trainer-guide.md
+  faq: docs/faq.md
+  examples: docs/examples.md
+skills:
+  layout: direct-local
+  catalog: skills/catalog.yaml
+  entries:
+  - web-access
+  - summarize
+  - benos-memory-core
+  - ontology
+  - product-catalog-query
+  - store-content-manager
+  - product-faq-answerer
+  - coupon-offer-guide
+  - activity-copy-generator
+  - crm-customer-tagging
+  - lead-capture-form
+  - booking-and-arrival-flow
+  - product-image-cleanup
+  - background-remove
+  - order-followup-note
+  - promotion-performance-brief

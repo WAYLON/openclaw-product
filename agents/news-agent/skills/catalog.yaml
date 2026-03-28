@@ -1,0 +1,112 @@
+- id: web-access
+  source: 本 Agent 本地基础技能
+  launch_recommendation: 默认启用
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 无
+  description_zh: 负责联网搜索、网页访问、登录后网页操作与动态页面读取。
+- id: summarize
+  source: 本 Agent 本地基础技能
+  launch_recommendation: 默认启用
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 无
+  description_zh: 负责长文本、网页、材料和多来源内容的中文摘要与结构化整理。
+- id: benos-memory-core
+  source: 本 Agent 本地基础技能
+  launch_recommendation: 默认启用
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 无
+  description_zh: 负责本 Agent 的长期记忆、上下文续接与复盘沉淀。
+- id: ontology
+  source: 本 Agent 本地基础技能
+  launch_recommendation: 默认启用
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 无
+  description_zh: 负责本 Agent 的实体、关系、术语和知识结构整理。
+- id: rss-source-router
+  source: RSSHub
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 网络
+  description_zh: 统一配置订阅源和平台 feed 路由。
+- id: feed-subscription-manager
+  source: RSSHub
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 网络
+  description_zh: 管理订阅、标签、更新频率。
+- id: topic-monitor
+  source: RSSHub / openclaw-tavily-search
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 是
+  runtime_requirements: 网络 / key
+  description_zh: 围绕主题持续监测新内容。
+- id: keyword-watch
+  source: RSSHub / opencli
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 是
+  runtime_requirements: 网络 / 浏览器
+  description_zh: 按关键词追踪平台与站点动态。
+- id: platform-content-reader
+  source: opencli / web-access
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 浏览器
+  description_zh: 读取公众号、微博、知乎、B 站等内容。
+- id: news-cluster-summarizer
+  source: summarize
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 无
+  description_zh: 把多篇相关内容聚类并生成中文摘要。
+- id: daily-brief-generator
+  source: summarize / word-docx
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 文档
+  description_zh: 生成日报。
+- id: weekly-brief-generator
+  source: summarize / word-docx
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 文档
+  description_zh: 生成周报。
+- id: competitor-content-scan
+  source: opencli / web-access
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 浏览器
+  description_zh: 扫描竞品账号、栏目和站点内容。
+- id: content-publish-pipeline
+  source: Strapi / Directus / Payload / n8n
+  launch_recommendation: 建议首发
+  risk_level: 中
+  needs_key: 是
+  runtime_requirements: 服务 / key
+  description_zh: 把稿件投递到内容后台或自动工作流。
+- id: article-knowledge-base-sync
+  source: Strapi / Directus / Payload
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 是
+  runtime_requirements: 服务 / key
+  description_zh: 将精选资讯同步到知识库。
+- id: multi-source-merge
+  source: RSSHub / summarize / opencli
+  launch_recommendation: 建议首发
+  risk_level: 低
+  needs_key: 否
+  runtime_requirements: 网络
+  description_zh: 把相同主题的多源信息合并去重。

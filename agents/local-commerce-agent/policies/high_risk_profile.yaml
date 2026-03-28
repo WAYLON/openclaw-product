@@ -1,0 +1,11 @@
+profile: high_risk_profile
+profile_goal: 高风险能力单独控制
+require_manual_approval: true
+deny_by_default: true
+manual_review_required_for:
+  - 自动改价或自动核销
+  - 未审活动批量外发
+  - 客户支付相关高风险动作
+notes: |
+  该策略不面向日常教学演示，而面向高风险业务动作的单独审批。
+  凡是涉及不可逆、强承诺、强合规或敏感资料留存的操作，都应切到本策略下执行。
