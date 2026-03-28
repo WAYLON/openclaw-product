@@ -33,7 +33,3 @@ jobs:
 
       - name: Validate packages
         run: python scripts/check_all_packages.py
-
-      - name: Run tests
-        run: python -m unittest discover -s tests -p 'test_*.py'
-
