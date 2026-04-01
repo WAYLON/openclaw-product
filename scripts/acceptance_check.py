@@ -9,6 +9,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent.parent
+OPENCLAW_HOME = Path.home() / ".openclaw"
 BUSINESS_AGENTS = [
     "education-agent",
     "stock-agent",
@@ -62,6 +63,24 @@ def write_report(checks: list[tuple[str, bool, str]], report_path: Path) -> None
     report_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def check_runtime_layout() -> list[tuple[str, bool, str]]:
+    checks: list[tuple[str, bool, str]] = []
+    checks.append(("运行目录存在: ~/.openclaw/openclaw.json", (OPENCLAW_HOME / "openclaw.json").exists(), str(OPENCLAW_HOME / "openclaw.json")))
+    checks.append(("运行目录存在: ~/.openclaw/skills", (OPENCLAW_HOME / "skills").exists(), str(OPENCLAW_HOME / "skills")))
+    checks.append(("运行目录存在: ~/.openclaw/workspaces", (OPENCLAW_HOME / "workspaces").exists(), str(OPENCLAW_HOME / "workspaces")))
+    checks.append(("运行目录存在: ~/.openclaw/agents", (OPENCLAW_HOME / "agents").exists(), str(OPENCLAW_HOME / "agents")))
+    checks.append(("运行目录存在: ~/.openclaw/extensions", (OPENCLAW_HOME / "extensions").exists(), str(OPENCLAW_HOME / "extensions")))
+    checks.append(("运行目录存在: ~/.openclaw/memory", (OPENCLAW_HOME / "memory").exists(), str(OPENCLAW_HOME / "memory")))
+    checks.append(("运行目录存在: ~/.openclaw/logs", (OPENCLAW_HOME / "logs").exists(), str(OPENCLAW_HOME / "logs")))
+    checks.append(("主入口工作区存在: ~/.openclaw/workspace", (OPENCLAW_HOME / "workspace").exists(), str(OPENCLAW_HOME / "workspace")))
+    for agent_id in BUSINESS_AGENTS:
+        workspace_dir = OPENCLAW_HOME / "workspaces" / agent_id
+        agent_state_dir = OPENCLAW_HOME / "agents" / agent_id / "agent"
+        checks.append((f"{agent_id} workspace 存在", workspace_dir.exists(), str(workspace_dir)))
+        checks.append((f"{agent_id} state 目录存在", agent_state_dir.exists(), str(agent_state_dir)))
+    return checks
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="OpenClaw 交付最小验收")
     parser.add_argument("--smoke", action="store_true", help="对 7 个 Agent 逐个执行最小回复测试")
@@ -79,6 +98,7 @@ def main() -> int:
         args.memory_health = True
 
     checks: list[tuple[str, bool, str]] = []
+    checks.extend(check_runtime_layout())
 
     openclaw_path = shutil.which("openclaw")
     checks.append(("openclaw 命令可用", bool(openclaw_path), openclaw_path or "未找到 openclaw"))

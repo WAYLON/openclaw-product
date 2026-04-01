@@ -57,6 +57,12 @@
 - OpenClaw CLI / App 默认安装最新稳定版
 - 飞书插件默认使用 `npx -y @larksuite/openclaw-lark install`
 - `agent-platform`：只负责模板生成、同步与交付辅助
+- 按本项目安装后，最终生效的现场目录以 `~/.openclaw` 为准
+- 运行目录应直接落成：
+  - `~/.openclaw/workspaces/<agent>/`
+  - `~/.openclaw/agents/<agent>/agent/`
+  - `~/.openclaw/skills/`
+  - `~/.openclaw/extensions/`
 - 后台运行时 key：统一写 LaunchAgent
 - 配置型 skill key：写 `openclaw.json`
 - 交付结构检查：`make delivery-check`

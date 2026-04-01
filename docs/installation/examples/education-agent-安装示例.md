@@ -35,7 +35,7 @@ openclaw agents bind --agent education-agent --channel feishu --account educatio
 如果现场是把 `openmaic` 按教育 Agent 私有 skill 方式接入，需要额外确认：
 
 1. skill 放在：
-   - `~/.openclaw/parallel-agents/workspaces/education-agent/skills/openmaic/`
+   - `~/.openclaw/workspaces/education-agent/skills/openmaic/`
 2. `SKILL.md` 带合法 frontmatter
 3. 拷贝后已重启 gateway
 4. 用新会话验证，不用既有线程结果代替
@@ -44,7 +44,7 @@ openclaw agents bind --agent education-agent --channel feishu --account educatio
 当前项目已经有一条真实跑通的现场事实：
 
 - 私有 skill 路径按下面这条实际运行：
-  - `~/.openclaw/parallel-agents/workspaces/education-agent/skills/openmaic/SKILL.md`
+  - `~/.openclaw/workspaces/education-agent/skills/openmaic/SKILL.md`
 - `references/hosted-mode.md` 已补齐
 - `references/generate-flow.md` 已补齐
 - `accessCode` 已通过：

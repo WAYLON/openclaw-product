@@ -105,7 +105,7 @@
 ## 目录说明
 
 - `agents/`
-  - 各业务 Agent 的模板定义、文档、专有 skill 说明
+  - 各业务 Agent 的核心模板定义
 - `packages/`
   - 面向交付的专业包说明与安装清单
 - `channels/`
@@ -116,6 +116,19 @@
   - 模板同步、导出、安装校验
 - `docs/`
   - 架构、安装、交付、讲解文档
+
+## 安装后运行目录
+
+按本项目安装完成后，最终生效的现场目录以 `~/.openclaw` 为准，结构应直接落成：
+
+- `~/.openclaw/workspaces/<agent>/`
+- `~/.openclaw/agents/<agent>/agent/`
+- `~/.openclaw/skills/`
+- `~/.openclaw/extensions/`
+- `~/.openclaw/memory/`
+- `~/.openclaw/logs/`
+
+项目仓库 `openclaw-product/` 只是模板、安装器和文档来源，不是最终运行现场。
 
 ## 文档入口
 

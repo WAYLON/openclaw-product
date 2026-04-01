@@ -48,7 +48,7 @@ find .platform/workspaces/stock-agent -maxdepth 2 -type f | sort
 ```bash
 openclaw agents set-identity \
   --agent stock-agent \
-  --identity-file /Users/waylon/.openclaw/parallel-agents/workspaces/stock-agent/IDENTITY.md
+  --identity-file /Users/waylon/.openclaw/workspaces/stock-agent/IDENTITY.md
 ```
 
 ## 6. 绑定渠道

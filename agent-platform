@@ -266,10 +266,9 @@ def cmd_openclaw_export(args: argparse.Namespace) -> int:
     from installer.sync_to_openclaw import sync_workspace
 
     openclaw_home = Path(args.openclaw_home).expanduser()
-    parallel_root = Path(args.parallel_root).expanduser() if args.parallel_root else openclaw_home / "parallel-agents"
-    result = sync_workspace(args.agent_id, openclaw_home, parallel_root)
+    result = sync_workspace(args.agent_id, openclaw_home)
 
-    print("已把模板同步到本机 OpenClaw 多 Agent 目录")
+    print("已把模板同步到本机 OpenClaw 运行目录")
     print(f"- target_workspace: {result['target_workspace']}")
     print(f"- target_state_dir: {result['target_state_dir']}")
     print("下一步官方命令：")
@@ -294,7 +293,6 @@ def cmd_openclaw_export_all(args: argparse.Namespace) -> int:
     from installer.sync_to_openclaw import sync_workspace
 
     openclaw_home = Path(args.openclaw_home).expanduser()
-    parallel_root = Path(args.parallel_root).expanduser() if args.parallel_root else openclaw_home / "parallel-agents"
     synced = []
     skipped = []
 
@@ -307,7 +305,7 @@ def cmd_openclaw_export_all(args: argparse.Namespace) -> int:
             skipped.append(agent_id)
             print(f"跳过失效记录: {agent_id}")
             continue
-        result = sync_workspace(agent_id, openclaw_home, parallel_root)
+        result = sync_workspace(agent_id, openclaw_home)
         synced.append(result)
         print(f"已同步: {agent_id}")
         print(f"- target_workspace: {result['target_workspace']}")
@@ -381,15 +379,13 @@ def build_parser() -> argparse.ArgumentParser:
     secret_remove.add_argument("key")
     secret_remove.add_argument("--scope", choices=["platform", "tenant", "agent", "channel", "account"], default="agent")
 
-    openclaw = sub.add_parser("openclaw", help="把项目模板同步到本机 OpenClaw 多 Agent 目录")
+    openclaw = sub.add_parser("openclaw", help="把项目模板同步到本机 OpenClaw 运行目录")
     openclaw_sub = openclaw.add_subparsers(dest="openclaw_command", required=True)
     export = openclaw_sub.add_parser("export", help="把某个已安装 Agent 模板同步到本机 OpenClaw 目录")
     export.add_argument("agent_id")
     export.add_argument("--openclaw-home", default=str(Path.home() / ".openclaw"))
-    export.add_argument("--parallel-root", default="")
     export_all = openclaw_sub.add_parser("export-all", help="把全部已安装 Agent 模板批量同步到本机 OpenClaw 目录")
     export_all.add_argument("--openclaw-home", default=str(Path.home() / ".openclaw"))
-    export_all.add_argument("--parallel-root", default="")
 
     delivery = sub.add_parser("delivery", help="交付检查入口")
     delivery_sub = delivery.add_subparsers(dest="delivery_command", required=True)
