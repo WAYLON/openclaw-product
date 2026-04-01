@@ -38,8 +38,8 @@ openclaw agents bind --agent education-agent --channel feishu --account educatio
    - `~/.openclaw/parallel-agents/workspaces/education-agent/skills/openmaic/`
 2. `SKILL.md` 带合法 frontmatter
 3. 拷贝后已重启 gateway
-4. 用新会话验证，不用旧线程结果代替
-5. 如果仍沿用旧技能清单，直接重建 `education-agent` 的 session snapshot
+4. 用新会话验证，不用既有线程结果代替
+5. 如果仍沿用原有技能清单，直接重建 `education-agent` 的 session snapshot
 
 当前项目已经有一条真实跑通的现场事实：
 

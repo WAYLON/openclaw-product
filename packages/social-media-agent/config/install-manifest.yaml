@@ -13,6 +13,9 @@ package:
     - AGENTS.md
     - IDENTITY.md
     - skills/
+    - policies/default_open_profile.yaml
+    - policies/restricted_profile.yaml
+    - policies/high_risk_profile.yaml
     - docs/quickstart.md
     - docs/user-guide.md
     - docs/trainer-guide.md

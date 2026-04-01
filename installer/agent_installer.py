@@ -74,7 +74,7 @@ class AgentInstaller:
         return workspace_dir
 
     def _copy_workspace_assets(self, source_agent_dir: Path, package_dir: Path, workspace_dir: Path) -> None:
-        copy_dirs = ["skills", "docs", "examples", "knowledge", "policies"]
+        copy_dirs = ["skills"]
         for dirname in copy_dirs:
             source_dir = source_agent_dir / dirname
             if source_dir.exists():
@@ -152,7 +152,7 @@ class AgentInstaller:
 3. 不通过独立封装层，第三方系统能力也直接放在当前 Agent 的 `skills/` 目录中
 
 ## 对外回答规则
-- 当用户询问“你有哪些技能”“你的专业技能是什么”“你会什么”“你能做什么”时，必须先读取本工作区 `skills/` 目录与 `docs/skills-matrix.md`。
+- 当用户询问“你有哪些技能”“你的专业技能是什么”“你会什么”“你能做什么”时，必须先读取本工作区 `skills/` 目录。
 - 回答时先列专有技能，再列共享技能，不要只做抽象能力概括。
 
 ## 约束

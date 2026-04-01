@@ -30,6 +30,7 @@
 - [7个Agent-渠道绑定与模型分配总表.md](/Users/waylon/Desktop/openclaw-product/docs/installation/7个Agent-渠道绑定与模型分配总表.md)
 - [实际运行基线与重写说明.md](/Users/waylon/Desktop/openclaw-product/docs/installation/实际运行基线与重写说明.md)
 - [../guides/Agent官方核心文件说明.md](/Users/waylon/Desktop/openclaw-product/docs/guides/Agent官方核心文件说明.md)
+- [技能加载与会话可见性说明.md](/Users/waylon/Desktop/openclaw-product/docs/installation/技能加载与会话可见性说明.md)
 - [key初始化教程.md](/Users/waylon/Desktop/openclaw-product/docs/installation/key初始化教程.md)
 - [记忆插件安装教程.md](/Users/waylon/Desktop/openclaw-product/docs/installation/记忆插件安装教程.md)
 - [CLI命令设计.md](/Users/waylon/Desktop/openclaw-product/docs/installation/CLI命令设计.md)

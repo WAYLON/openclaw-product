@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3c6aaf3b-62da-46f1-a06f-d11d51b47a4d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents/education-agent/agent.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/agents/education-agent/agent.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents/loan-agent/agent.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/agents/loan-agent/agent.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents/news-agent/agent.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/agents/news-agent/agent.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents/sales-agent/agent.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/agents/sales-agent/agent.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents/stock-agent/agent.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/agents/stock-agent/agent.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/delivery/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/delivery/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/delivery/角色验收模板.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/delivery/角色验收模板.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/installation/7个Agent-渠道绑定与模型分配总表.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/installation/7个Agent-渠道绑定与模型分配总表.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/installation/7个Agent完整安装教程.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/installation/7个Agent完整安装教程.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/installation/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/installation/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/installation/平台安装教程.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/installation/平台安装教程.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/installation/新机器安装路径.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/installation/新机器安装路径.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/installation/老机器升级路径.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/installation/老机器升级路径.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/acceptance_check.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/acceptance_check.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/delivery_check.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/delivery_check.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="GOROOT" url="file://$USER_HOME$/go/pkg/mod/golang.org/toolchain@v0.0.1-go1.25.0.darwin-arm64" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="3BXL3Wi4FJhnXuPWJ1BTj8Hz1eL" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/waylon/Desktop/openclaw-product&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-gosdk-d297c17c1fbd-85c80fddc9a6-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-243.23654.166" />
+        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-GO-243.23654.166" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VgoProject">
+    <settings-migrated>true</settings-migrated>
+  </component>
+</project>

@@ -34,6 +34,8 @@
 
 - 放该 Agent 的专有技能
 - 共享技能由平台统一安装，但运行时仍按会话可见性做验证
+- 当前项目仓库默认只保留 `skills/` 这个官方目录本身
+- 不再在仓库里长期堆放共享技能副本、旧专有 skill 残留或历史模板 skill
 
 ## 当前项目中不再作为主定义文件的内容
 
@@ -58,15 +60,6 @@
 - `AGENTS.md`
 - `IDENTITY.md`
 - `skills/`
-
-### Agent 配套文档
-
-- `docs/quickstart.md`
-- `docs/user-guide.md`
-- `docs/trainer-guide.md`
-- `docs/faq.md`
-- `docs/examples.md`
-- `docs/skills-matrix.md`
 
 ### 交付包说明
 

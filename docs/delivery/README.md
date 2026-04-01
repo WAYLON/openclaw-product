@@ -10,6 +10,7 @@
 4. [专有技能新增规范.md](/Users/waylon/Desktop/openclaw-product/docs/delivery/专有技能新增规范.md)
 5. [版本迁移模板.md](/Users/waylon/Desktop/openclaw-product/docs/delivery/版本迁移模板.md)
 6. [回滚模板.md](/Users/waylon/Desktop/openclaw-product/docs/delivery/回滚模板.md)
+7. [../installation/技能加载与会话可见性说明.md](/Users/waylon/Desktop/openclaw-product/docs/installation/技能加载与会话可见性说明.md)
 
 ## 怎么用
 
@@ -25,6 +26,8 @@
   - 先看 `版本迁移模板`
 - 要回滚新增 skill：
   - 看 `回滚模板`
+- 要排“装了 skill 但会话里看不到”这类问题：
+  - 看 `技能加载与会话可见性说明`
 
 ## 当前原则
 

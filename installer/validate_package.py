@@ -6,14 +6,6 @@ from core.config.schema_validator import validate_install_manifest, SchemaValida
 from core.config.config_loader import ConfigLoader
 
 
-REQUIRED_DOCS = [
-    "quickstart.md",
-    "user-guide.md",
-    "trainer-guide.md",
-    "faq.md",
-    "examples.md",
-]
-
 REQUIRED_SUPPORT_FILES = [
     "README.md",
     "config/install-manifest.yaml",
@@ -24,11 +16,6 @@ REQUIRED_AGENT_FILES = [
     "soul.yaml",
     "AGENTS.md",
     "IDENTITY.md",
-    "docs/quickstart.md",
-    "docs/user-guide.md",
-    "docs/trainer-guide.md",
-    "docs/faq.md",
-    "docs/examples.md",
 ]
 
 
@@ -50,7 +37,8 @@ def validate_package(package_dir: Path, source_agent_dir: Path | None = None) ->
         if not (package_dir / relpath).exists():
             missing.append(relpath)
 
-    for name in REQUIRED_DOCS:
+    required_package_docs = ["quickstart.md", "user-guide.md", "trainer-guide.md", "faq.md", "examples.md"]
+    for name in required_package_docs:
         if not (package_dir / "docs" / name).exists():
             missing.append(f"docs/{name}")
 
