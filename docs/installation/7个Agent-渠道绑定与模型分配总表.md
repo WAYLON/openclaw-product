@@ -6,6 +6,7 @@
 
 - 一个飞书机器人只绑定一个 Agent
 - 平台默认模型统一为 `local-proxy/gpt-5.4`
+- 平台当前同时保留一个备用大模型：`siliconflow/Qwen/Qwen3.5-122B-A10B`
 - 当前首发不做按 Agent 的模型 provider 分裂
 - 所有 Agent 当前统一走共享技能基线
 
@@ -33,6 +34,53 @@ openclaw agents bind --agent news-agent --channel feishu --account newsbot
 openclaw agents bind --agent sales-agent --channel feishu --account salesbot
 ```
 
+## 3.1 Feishu 最终 JSON 结构
+
+主入口 bot 不是普通 `accounts` 之一，而是 `channels.feishu` 顶层默认账号。推荐结构直接按下面写，不要自行猜结构：
+
+```json
+{
+  "channels": {
+    "feishu": {
+      "appId": "<主入口 Agent 的 appId>",
+      "appSecret": "<主入口 Agent 的 appSecret>",
+      "dmPolicy": "open",
+      "groupPolicy": "open",
+      "requireMention": true,
+      "allowFrom": ["*"],
+      "accounts": {
+        "educationbot": {
+          "appId": "<教育 Agent 的 appId>",
+          "appSecret": "<教育 Agent 的 appSecret>"
+        },
+        "stockbot": {
+          "appId": "<股票 Agent 的 appId>",
+          "appSecret": "<股票 Agent 的 appSecret>"
+        },
+        "loanbot": {
+          "appId": "<助贷 Agent 的 appId>",
+          "appSecret": "<助贷 Agent 的 appSecret>"
+        },
+        "socialbot": {
+          "appId": "<社媒 Agent 的 appId>",
+          "appSecret": "<社媒 Agent 的 appSecret>"
+        },
+        "newsbot": {
+          "appId": "<新闻 Agent 的 appId>",
+          "appSecret": "<新闻 Agent 的 appSecret>"
+        },
+        "salesbot": {
+          "appId": "<销售 Agent 的 appId>",
+          "appSecret": "<销售 Agent 的 appSecret>"
+        }
+      }
+    }
+  }
+}
+```
+
+如果把主入口 bot 也塞进 `accounts`，状态探针和绑定结果很容易变成看起来像 `6/7`。
+
 ## 4. 飞书策略
 
 - `dmPolicy = open`
@@ -47,3 +95,17 @@ openclaw agents bind --agent sales-agent --channel feishu --account salesbot
 3. 确认模型默认值是 `local-proxy/gpt-5.4`
 4. 绑定飞书账号
 5. 做最小对话测试
+
+## 6. 当前备用大模型
+
+平台当前额外保留一个可选大模型：
+
+- `siliconflow/Qwen/Qwen3.5-122B-A10B`
+- `baseUrl = https://api.siliconflow.cn/v1`
+- 需要 `SILICONFLOW_API_KEY`
+
+说明：
+
+- 当前它不是平台主默认
+- 默认仍然是 `local-proxy/gpt-5.4`
+- 如果后续某个 Agent 需要更大模型，再按 Agent 单独覆盖

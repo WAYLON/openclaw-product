@@ -23,11 +23,13 @@
 ## 文件清单
 
 - [平台安装教程.md](/Users/waylon/Desktop/openclaw-product/docs/installation/平台安装教程.md)
+- [重装与清理路径.md](/Users/waylon/Desktop/openclaw-product/docs/installation/重装与清理路径.md)
 - [新机器安装路径.md](/Users/waylon/Desktop/openclaw-product/docs/installation/新机器安装路径.md)
 - [老机器升级路径.md](/Users/waylon/Desktop/openclaw-product/docs/installation/老机器升级路径.md)
 - [7个Agent完整安装教程.md](/Users/waylon/Desktop/openclaw-product/docs/installation/7个Agent完整安装教程.md)
 - [7个Agent-渠道绑定与模型分配总表.md](/Users/waylon/Desktop/openclaw-product/docs/installation/7个Agent-渠道绑定与模型分配总表.md)
 - [实际运行基线与重写说明.md](/Users/waylon/Desktop/openclaw-product/docs/installation/实际运行基线与重写说明.md)
+- [../guides/Agent官方核心文件说明.md](/Users/waylon/Desktop/openclaw-product/docs/guides/Agent官方核心文件说明.md)
 - [key初始化教程.md](/Users/waylon/Desktop/openclaw-product/docs/installation/key初始化教程.md)
 - [记忆插件安装教程.md](/Users/waylon/Desktop/openclaw-product/docs/installation/记忆插件安装教程.md)
 - [CLI命令设计.md](/Users/waylon/Desktop/openclaw-product/docs/installation/CLI命令设计.md)
@@ -40,7 +42,7 @@
 ## 建议阅读顺序
 
 1. 平台安装教程
-2. 新机器安装路径 / 老机器升级路径
+2. 重装与清理路径 / 新机器安装路径 / 老机器升级路径
 3. 7个Agent完整安装教程
 4. 7个Agent-渠道绑定与模型分配总表
 5. 实际运行基线与重写说明
@@ -57,4 +59,4 @@
 - 后台运行时 key：统一写 LaunchAgent
 - 配置型 skill key：写 `openclaw.json`
 - 交付结构检查：`make delivery-check`
-- 本机最小验收：`make acceptance`
+- 本机最小验收：`./agent-platform acceptance --full --report <path>`

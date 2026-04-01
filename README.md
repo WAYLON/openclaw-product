@@ -5,8 +5,11 @@
 这次重写后的口径，不再以早期概念模板为准，而是以当前这台 macOS 机器上已经实际跑通的环境为基线，并按当前首发的 `7` 个角色收敛：
 
 - OpenClaw CLI / App：安装时以最新稳定版为准
+- `npm install -g openclaw` 默认只更新 CLI，不会自动下载或更新 `OpenClaw.app`
+- 飞书官方插件安装命令不会代替 App 安装或 App 更新
 - Gateway：`~/Library/LaunchAgents/ai.openclaw.gateway.plist`
 - 默认模型：`local-proxy/gpt-5.4`
+- 备用大模型：`siliconflow/Qwen/Qwen3.5-122B-A10B`
 - 运行模式：本机 `local` + LaunchAgent 守护
 - 当前首发 Agent 总数：`7`
   - `main`（默认入口 / 技能管理员）
@@ -37,6 +40,11 @@
 - `baseUrl = http://127.0.0.1:8080/v1`
 - `apiKey = pwd`
 
+当前同时补充了一个可选大模型：
+
+- `siliconflow / Qwen/Qwen3.5-122B-A10B`
+- `baseUrl = https://api.siliconflow.cn/v1`
+
 这套链路是当前机器上已经验证过稳定且明显快于 `openai-codex` OAuth 的方案。
 
 ## 核心设计原则
@@ -47,6 +55,10 @@
 - 一个飞书机器人只绑定一个 Agent
 - 共享 skill 放在 `~/.openclaw/skills`
 - 专有 skill 放在 `~/.openclaw/workspaces/<agent>/skills`
+- 当前项目文档口径的 `exec` 默认放权写法为：
+  - `tools.profile = "full"`
+  - `tools.exec.security = "full"`
+  - `tools.exec.ask = "off"`
 - 后台运行时用到的 key，统一写入 LaunchAgent 环境变量并重启 gateway
 - skill 明确要求写配置文件的，再写进 `openclaw.json`
 
@@ -61,6 +73,13 @@
 - `skill-creator`
 - `summarize`
 - `agent-browser`
+- `ontology`
+- `weather`
+- `document-pro`
+- `github`
+- `proactive-agent`
+- `mcporter`
+- `multi-search-engine`
 - `nano-pdf`
 - `nano-banana-pro`
 - `excel-xlsx`
@@ -71,6 +90,8 @@
 
 - `main` 额外显式挂了 `skill-creator`
 - 所有 Agent 当前都使用 `tools.profile = full`
+- `opencli`、`agent-browser` 依赖 Chrome 远程调试
+- 安装后需要在 `chrome://inspect/#remote-debugging` 确认调试目标可见
 
 ## 当前专有技能
 
@@ -116,6 +137,8 @@
   - 新技能上线失败时的标准回滚模板
 - [docs/guides/README.md](/Users/waylon/Desktop/openclaw-product/docs/guides/README.md)
   - 使用、培训、人格审阅入口
+- [docs/guides/Agent官方核心文件说明.md](/Users/waylon/Desktop/openclaw-product/docs/guides/Agent官方核心文件说明.md)
+  - 当前项目里 Agent 官方核心文件与交付文档的分层说明
 - [docs/delivery/README.md](/Users/waylon/Desktop/openclaw-product/docs/delivery/README.md)
   - 交付、升级、回滚入口
 

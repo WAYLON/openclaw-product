@@ -74,13 +74,13 @@ class AgentInstaller:
         return workspace_dir
 
     def _copy_workspace_assets(self, source_agent_dir: Path, package_dir: Path, workspace_dir: Path) -> None:
-        copy_dirs = ["skills", "prompts", "docs", "examples", "knowledge", "policies"]
+        copy_dirs = ["skills", "docs", "examples", "knowledge", "policies"]
         for dirname in copy_dirs:
             source_dir = source_agent_dir / dirname
             if source_dir.exists():
                 shutil.copytree(source_dir, workspace_dir / dirname, dirs_exist_ok=True)
 
-        copy_files = ["agent.yaml", "soul.yaml"]
+        copy_files = ["soul.yaml", "AGENTS.md", "IDENTITY.md"]
         for filename in copy_files:
             source_file = source_agent_dir / filename
             if source_file.exists():
@@ -96,16 +96,9 @@ class AgentInstaller:
         workspace_dir: Path,
     ) -> None:
         soul_text = (source_agent_dir / "soul.yaml").read_text(encoding="utf-8") if (source_agent_dir / "soul.yaml").exists() else ""
-        system_prompt = (
-            (source_agent_dir / "prompts" / "system.prompt.md").read_text(encoding="utf-8")
-            if (source_agent_dir / "prompts" / "system.prompt.md").exists()
-            else ""
-        )
 
         workspace_files = {
-            "AGENTS.md": self._build_agents_md(agent_id, source_agent_dir, package_dir),
             "SOUL.md": self._build_soul_md(agent_id, soul_text),
-            "IDENTITY.md": self._build_identity_md(agent_id),
             "USER.md": self._build_user_md(agent_id),
             "TOOLS.md": self._build_tools_md(agent_id),
             "HEARTBEAT.md": self._build_heartbeat_md(agent_id),
@@ -113,34 +106,9 @@ class AgentInstaller:
         }
 
         for filename, content in workspace_files.items():
-            (workspace_dir / filename).write_text(content, encoding="utf-8")
-
-        if system_prompt:
-            (workspace_dir / "SYSTEM_PROMPT.md").write_text(system_prompt, encoding="utf-8")
-
-    def _build_agents_md(self, agent_id: str, source_agent_dir: Path, package_dir: Path) -> str:
-        return f"""# {agent_id} 工作区说明
-
-这是 `{agent_id}` 的 OpenClaw 原生工作区模板。
-
-## 目录说明
-- `skills/`：该 Agent 的专业技能目录
-- `prompts/`：系统提示词与渠道回复提示词
-- `knowledge/`：专业知识资料
-- `docs/`：内部使用文档
-- `delivery-package/`：交付客户的完整资料包
-
-## 来源
-- Agent 源目录：`{source_agent_dir}`
-- 交付包目录：`{package_dir}`
-
-## 工作原则
-1. 只处理 `{agent_id}` 的专业职责。
-2. 优先使用本工作区 `skills/` 下的技能，不依赖中间封装层。
-3. 当前 Agent 需要的基础技能、专业技能、第三方接入技能都直接放在本工作区 `skills/` 下。
-4. 对外输出默认中文。
-5. 首次命中需要 Key 的能力时，先给初始化提示，不直接报错。
-"""
+            target = workspace_dir / filename
+            if not target.exists():
+                target.write_text(content, encoding="utf-8")
 
     def _build_soul_md(self, agent_id: str, soul_text: str) -> str:
         return f"""# {agent_id} 灵魂设定
@@ -184,9 +152,8 @@ class AgentInstaller:
 3. 不通过独立封装层，第三方系统能力也直接放在当前 Agent 的 `skills/` 目录中
 
 ## 对外回答规则
-- 当用户询问“你有哪些技能”“你的专业技能是什么”“你会什么”“你能做什么”时，必须先读取 `skills/catalog.yaml`。
-- 回答时先列专业 skill `id` 和对应中文说明，再列基础 skill `id` 和对应中文说明。
-- 不要只做抽象能力概括，不要把 skill 名字省略掉。
+- 当用户询问“你有哪些技能”“你的专业技能是什么”“你会什么”“你能做什么”时，必须先读取本工作区 `skills/` 目录与 `docs/skills-matrix.md`。
+- 回答时先列专有技能，再列共享技能，不要只做抽象能力概括。
 
 ## 约束
 - 不直接把第三方系统当作业务脑子

@@ -2,8 +2,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from core.config.schema_validator import validate_agent_config
-
 
 class ConfigLoader:
     """统一读取 YAML 配置。
@@ -28,8 +26,3 @@ class ConfigLoader:
         if not target.exists():
             raise FileNotFoundError(f"配置文件不存在：{target}")
         return yaml.safe_load(target.read_text(encoding="utf-8")) or {}
-
-    def load_agent_config(self, relative_path: str) -> dict:
-        payload = self.load_yaml(relative_path)
-        validate_agent_config(payload, self.root / relative_path)
-        return payload

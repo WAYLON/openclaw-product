@@ -2,6 +2,11 @@ platform_default:
   provider: local-proxy
   model: gpt-5.4
   reasoning_effort: medium
+  tools:
+    profile: full
+    exec:
+      security: full
+      ask: off
 
 agents:
   main:
@@ -9,42 +14,77 @@ agents:
     model: gpt-5.4
     reasoning_effort: medium
     profile: skill_admin
+    tools:
+      profile: full
+      exec:
+        security: full
+        ask: off
 
   education-agent:
     provider: local-proxy
     model: gpt-5.4
     reasoning_effort: medium
     profile: teaching_multimodal
+    tools:
+      profile: full
+      exec:
+        security: full
+        ask: off
 
   stock-agent:
     provider: local-proxy
     model: gpt-5.4
     reasoning_effort: medium
     profile: research_deep
+    tools:
+      profile: full
+      exec:
+        security: full
+        ask: off
 
   loan-agent:
     provider: local-proxy
     model: gpt-5.4
     reasoning_effort: medium
     profile: compliance_structured
+    tools:
+      profile: full
+      exec:
+        security: full
+        ask: off
 
   social-media-agent:
     provider: local-proxy
     model: gpt-5.4
     reasoning_effort: low
     profile: social_content_ops
+    tools:
+      profile: full
+      exec:
+        security: full
+        ask: off
 
   news-agent:
     provider: local-proxy
     model: gpt-5.4
     reasoning_effort: low
     profile: brief_fast
+    tools:
+      profile: full
+      exec:
+        security: full
+        ask: off
 
   sales-agent:
     provider: local-proxy
     model: gpt-5.4
     reasoning_effort: low
     profile: dialogue_conversion
+    tools:
+      profile: full
+      exec:
+        security: full
+        ask: off
 
 channels:
   default:

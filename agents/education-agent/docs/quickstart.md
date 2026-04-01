@@ -4,7 +4,7 @@
 这是给实施同学、开发同学、培训老师看的内部版本，用于确认这个 Agent 包已经被正确装配，并具备正式演示条件。
 
 ## 最短启动链路
-1. 检查 agent.yaml、soul.yaml、prompts、skills 是否齐全
+1. 检查 `soul.yaml`、`AGENTS.md`、`IDENTITY.md`、`skills/` 是否齐全
 2. 确认教学与语音相关初始化状态
 3. 绑定测试渠道实例
 4. 运行首轮课程设计问题
@@ -16,8 +16,8 @@
 - 请把讲义改成老师可播报的语音串讲稿。
 
 ## 重点检查项
-- `agent.yaml` 是否正确声明模型、记忆命名空间、权限策略。
 - `soul.yaml` 是否已经切换成正式专业版。
-- `prompts/` 是否已加载当前专业口径。
-- `skills/catalog.yaml` 与 `docs/skills-matrix.md` 是否一致。
+- `AGENTS.md` 是否已写明专有技能与共享技能基线。
+- `IDENTITY.md` 是否明确教育 Agent 的角色边界。
+- `skills/` 与 `docs/skills-matrix.md` 是否一致。
 - 初始化缺失时是否先弹中文提示，而不是直接报错。

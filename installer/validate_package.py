@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from core.config.schema_validator import validate_agent_config, validate_install_manifest, SchemaValidationError
+from core.config.schema_validator import validate_install_manifest, SchemaValidationError
 from core.config.config_loader import ConfigLoader
 
 
@@ -21,11 +21,9 @@ REQUIRED_SUPPORT_FILES = [
 ]
 
 REQUIRED_AGENT_FILES = [
-    "agent.yaml",
     "soul.yaml",
-    "prompts/system.prompt.md",
-    "prompts/channel_reply.prompt.md",
-    "skills/catalog.yaml",
+    "AGENTS.md",
+    "IDENTITY.md",
     "docs/quickstart.md",
     "docs/user-guide.md",
     "docs/trainer-guide.md",
@@ -68,11 +66,6 @@ def validate_package(package_dir: Path, source_agent_dir: Path | None = None) ->
         return missing
 
     try:
-        loader = ConfigLoader(source_agent_dir.parent.parent if source_agent_dir is not None else package_dir.parent.parent)
-        if source_agent_dir is not None:
-            agent_payload = loader.load_yaml(str(source_agent_dir.relative_to(loader.root) / "agent.yaml"))
-            validate_agent_config(agent_payload, source_agent_dir / "agent.yaml")
-
         manifest_loader = ConfigLoader(package_dir.parent.parent)
         manifest_payload = manifest_loader.load_yaml(str(package_dir.relative_to(manifest_loader.root) / "config" / "install-manifest.yaml"))
         validate_install_manifest(manifest_payload, package_dir / "config" / "install-manifest.yaml")

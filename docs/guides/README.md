@@ -6,7 +6,8 @@
 
 1. [7个首发Agent能力总览.md](/Users/waylon/Desktop/openclaw-product/docs/guides/7个首发Agent能力总览.md)
 2. [7个角色的灵魂总览.md](/Users/waylon/Desktop/openclaw-product/docs/guides/7个角色的灵魂总览.md)
-3. [老师讲解总提纲.md](/Users/waylon/Desktop/openclaw-product/docs/guides/老师讲解总提纲.md)
+3. [Agent官方核心文件说明.md](/Users/waylon/Desktop/openclaw-product/docs/guides/Agent官方核心文件说明.md)
+4. [老师讲解总提纲.md](/Users/waylon/Desktop/openclaw-product/docs/guides/老师讲解总提纲.md)
 
 ## 适用说明
 
@@ -14,6 +15,8 @@
   - 先看 `7个首发Agent能力总览`
 - 如果要快速审人格、边界和语气：
   - 看 `7个角色的灵魂总览`
+- 如果要快速搞清楚现在项目里哪些才是官方核心文件：
+  - 看 `Agent官方核心文件说明`
 - 如果要准备培训或售前讲解：
   - 看 `老师讲解总提纲`
 

@@ -39,6 +39,8 @@
   - 仓库交付结构检查
 - `make acceptance`
   - 本机 OpenClaw 最小验收
+- `./agent-platform acceptance --full --report <path>`
+  - 平台级完整验收并输出 Markdown 记录
 - `./agent-platform acceptance --scenario`
   - 按角色验收模板执行场景问题
 - `./agent-platform acceptance --scenario --report <path>`

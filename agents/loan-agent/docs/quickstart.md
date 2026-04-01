@@ -4,7 +4,7 @@
 这是给实施同学、开发同学、培训老师看的内部版本，用于确认这个 Agent 包已经被正确装配，并具备正式演示条件。
 
 ## 最短启动链路
-1. 检查 agent.yaml、soul.yaml、prompts、skills 是否齐全
+1. 检查 `soul.yaml`、`AGENTS.md`、`IDENTITY.md`、`skills/` 是否齐全
 2. 确认CRM/表单/OCR/预约能力初始化状态
 3. 绑定测试渠道实例
 4. 运行首轮预检问题
@@ -16,8 +16,8 @@
 - 请生成面向客户的材料清单说明。
 
 ## 重点检查项
-- `agent.yaml` 是否正确声明模型、记忆命名空间、权限策略。
 - `soul.yaml` 是否已经切换成正式专业版。
-- `prompts/` 是否已加载当前专业口径。
-- `skills/catalog.yaml` 与 `docs/skills-matrix.md` 是否一致。
+- `AGENTS.md` 是否已写明助贷流程边界与技能顺序。
+- `IDENTITY.md` 是否明确不可越界到正式授信判断。
+- `skills/` 与 `docs/skills-matrix.md` 是否一致。
 - 初始化缺失时是否先弹中文提示，而不是直接报错。

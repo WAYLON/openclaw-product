@@ -44,6 +44,7 @@ def main() -> int:
         ROOT / "docs" / "guides" / "README.md",
         ROOT / "docs" / "delivery" / "README.md",
         ROOT / "docs" / "installation" / "README.md",
+        ROOT / "docs" / "installation" / "重装与清理路径.md",
         ROOT / "docs" / "installation" / "记忆插件安装教程.md",
         ROOT / "docs" / "delivery" / "专有技能新增规范.md",
         ROOT / "docs" / "delivery" / "版本迁移模板.md",
@@ -75,8 +76,22 @@ def main() -> int:
         checks.append(
             (
                 f"{agent_id} 模板存在",
-                (ROOT / "agents" / agent_id / "agent.yaml").exists(),
-                str(ROOT / "agents" / agent_id / "agent.yaml"),
+                (ROOT / "agents" / agent_id / "soul.yaml").exists(),
+                str(ROOT / "agents" / agent_id / "soul.yaml"),
+            )
+        )
+        checks.append(
+            (
+                f"{agent_id} AGENTS.md 存在",
+                (ROOT / "agents" / agent_id / "AGENTS.md").exists(),
+                str(ROOT / "agents" / agent_id / "AGENTS.md"),
+            )
+        )
+        checks.append(
+            (
+                f"{agent_id} IDENTITY.md 存在",
+                (ROOT / "agents" / agent_id / "IDENTITY.md").exists(),
+                str(ROOT / "agents" / agent_id / "IDENTITY.md"),
             )
         )
         checks.append(

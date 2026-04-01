@@ -8,6 +8,13 @@
 - `skill-vetter`
 - `summarize`
 - `agent-browser`
+- `ontology`
+- `weather`
+- `document-pro`
+- `github`
+- `proactive-agent`
+- `mcporter`
+- `multi-search-engine`
 - `nano-pdf`
 - `nano-banana-pro`
 - `excel-xlsx`

@@ -4,7 +4,7 @@
 这是给实施同学、开发同学、培训老师看的内部版本，用于确认这个 Agent 包已经被正确装配，并具备正式演示条件。
 
 ## 最短启动链路
-1. 检查 agent.yaml、soul.yaml、prompts、skills 是否齐全
+1. 检查 `soul.yaml`、`AGENTS.md`、`IDENTITY.md`、`skills/` 是否齐全
 2. 确认研究类能力初始化状态
 3. 绑定测试渠道实例
 4. 运行首轮标准研究问题
@@ -16,8 +16,8 @@
 - 请把回测结果改成讲师可讲的复盘摘要。
 
 ## 重点检查项
-- `agent.yaml` 是否正确声明模型、记忆命名空间、权限策略。
 - `soul.yaml` 是否已经切换成正式专业版。
-- `prompts/` 是否已加载当前专业口径。
-- `skills/catalog.yaml` 与 `docs/skills-matrix.md` 是否一致。
+- `AGENTS.md` 是否已写明 QVeris / TradingAgents 优先级和共享技能基线。
+- `IDENTITY.md` 是否明确投研辅助而非自动交易定位。
+- `skills/` 与 `docs/skills-matrix.md` 是否一致。
 - 初始化缺失时是否先弹中文提示，而不是直接报错。

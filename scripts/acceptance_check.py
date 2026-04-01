@@ -17,6 +17,7 @@ BUSINESS_AGENTS = [
     "news-agent",
     "sales-agent",
 ]
+ALL_AGENTS = ["main", *BUSINESS_AGENTS]
 SCENARIO_PROMPTS = {
     "main": "给全部 agent 安装一个共享 skill 时，应该怎么做？",
     "education-agent": "帮我把这份讲义整理成课堂重点",
@@ -63,12 +64,19 @@ def write_report(checks: list[tuple[str, bool, str]], report_path: Path) -> None
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="OpenClaw 交付最小验收")
-    parser.add_argument("--smoke", action="store_true", help="对 6 个业务 Agent 逐个执行最小回复测试")
+    parser.add_argument("--smoke", action="store_true", help="对 7 个 Agent 逐个执行最小回复测试")
     parser.add_argument("--probe-channels", action="store_true", help="附加执行 channels --probe（较慢）")
+    parser.add_argument("--memory-health", action="store_true", help="附加执行 memory 健康检查")
+    parser.add_argument("--full", action="store_true", help="执行推荐的完整交付验收")
     parser.add_argument("--timeout", type=int, default=20, help="单个 OpenClaw 命令超时时间（秒）")
     parser.add_argument("--scenario", action="store_true", help="按角色验收模板执行标准场景问题")
     parser.add_argument("--report", default="", help="把验收结果写入 Markdown 文件")
     args = parser.parse_args()
+
+    if args.full:
+        args.probe_channels = True
+        args.smoke = True
+        args.memory_health = True
 
     checks: list[tuple[str, bool, str]] = []
 
@@ -88,8 +96,14 @@ def main() -> int:
         else:
             checks.append(("跳过 channels --probe（需显式开启）", True, ""))
 
+        if args.memory_health:
+            ok, detail = run_cmd(["openclaw", "memory-pro", "stats"], timeout=max(args.timeout, 30))
+            checks.append(("openclaw memory-pro stats", ok, detail))
+        else:
+            checks.append(("跳过 memory 健康检查（需显式开启）", True, ""))
+
         if args.smoke:
-            for agent_id in BUSINESS_AGENTS:
+            for agent_id in ALL_AGENTS:
                 ok, detail = run_cmd(
                     [
                         "openclaw",

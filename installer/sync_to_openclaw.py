@@ -23,10 +23,10 @@ def write_json(path: Path, payload: dict) -> None:
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
-def extract_agent_name(agent_yaml_path: Path, fallback: str) -> str:
-    if not agent_yaml_path.exists():
+def extract_agent_name(soul_path: Path, fallback: str) -> str:
+    if not soul_path.exists():
         return fallback
-    for line in agent_yaml_path.read_text(encoding="utf-8").splitlines():
+    for line in soul_path.read_text(encoding="utf-8").splitlines():
         stripped = line.strip()
         if stripped.startswith("name:"):
             return stripped.split(":", 1)[1].strip() or fallback
@@ -70,7 +70,7 @@ def sync_workspace(agent_id: str, openclaw_home: Path, parallel_root: Path) -> d
     if not isinstance(agents, list):
         agents = []
 
-    name = extract_agent_name(source_agent_dir / "agent.yaml", agent_id)
+    name = extract_agent_name(source_agent_dir / "soul.yaml", agent_id)
 
     entry = {
         "id": agent_id,

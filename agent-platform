@@ -61,6 +61,10 @@ def cmd_init(args: argparse.Namespace) -> int:
                 "reasoning_effort": "medium",
             },
             "permission_profile": "default_open_profile",
+            "tools": {
+                "profile": "full",
+                "also_allow": ["exec"],
+            },
         },
     )
     print("平台初始化完成")
@@ -97,7 +101,7 @@ def cmd_doctor(args: argparse.Namespace) -> int:
     issues = []
     if not (ROOT / "docs" / "architecture" / "平台总体架构与交付设计.md").exists():
         issues.append("缺少平台总设计文档")
-    agent_count = len(list((ROOT / "agents").glob("*/agent.yaml")))
+    agent_count = len(list((ROOT / "agents").glob("*/soul.yaml")))
     if agent_count < 6:
         issues.append("业务 Agent 模板数量不足 6 个")
     if issues:

@@ -18,6 +18,16 @@
 ## 初始化关注点
 - `openmaic` 的 `accessCode`
 
+## 当前真实接通能力
+- `openmaic` 当前按 hosted mode 接入
+- 私有 skill 路径以实际运行现场为准：
+  - `~/.openclaw/parallel-agents/workspaces/education-agent/skills/openmaic/`
+- 当前已经跑过真实课堂生成任务，不只是大纲回复
+
+## 推荐提问方式
+- “帮我把这份讲义整理成课堂重点”
+- “用 openmaic 生成一个互动课堂：零基础文科生，30 分钟学会 Python。生成完成后直接把 classroom URL 发我。”
+
 ## 内部交付提醒
 - 不替代正式评分
 - 不替代老师做高风险判断

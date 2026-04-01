@@ -9,10 +9,10 @@ package:
     platform_initialized: true
     docs_complete: true
   includes:
-    - agent.yaml
     - soul.yaml
-    - prompts/
-    - skills/catalog.yaml
+    - AGENTS.md
+    - IDENTITY.md
+    - skills/
     - docs/quickstart.md
     - docs/user-guide.md
     - docs/trainer-guide.md

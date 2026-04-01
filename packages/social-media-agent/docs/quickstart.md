@@ -6,7 +6,7 @@
 
 ## 最短启动链路
 
-1. 确认 `agent.yaml`、`soul.yaml`、`prompts/`、`skills/catalog.yaml` 齐全
+1. 确认 `soul.yaml`、`AGENTS.md`、`IDENTITY.md`、`skills/` 齐全
 2. 确认共享技能已经同步
 3. 绑定测试渠道
 4. 运行一条最小社媒整理问题

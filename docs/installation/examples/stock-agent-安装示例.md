@@ -90,8 +90,8 @@ openclaw agents bind --agent stock-agent --channel feishu --account stockbot
 
 ```bash
 find packages/stock-agent/docs -maxdepth 1 -type f | sort
-sed -n '1,160p' agents/stock-agent/skills/catalog.yaml
-sed -n '1,160p' .platform/workspaces/stock-agent/skills/catalog.yaml
+sed -n '1,200p' agents/stock-agent/AGENTS.md
+find .platform/workspaces/stock-agent/skills -maxdepth 2 -type f | sort
 ```
 
 ## 9. 首次联调建议
