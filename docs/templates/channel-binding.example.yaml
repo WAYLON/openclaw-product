@@ -1,13 +1,31 @@
-instance_id: feishu-edu-bot-01
-channel_type: feishu
-agent_id: education-agent
-tenant_id: demo-school
-binding_policy:
-  one_channel_instance_one_agent: true
-  allow_agent_override: false
-routing:
-  default_reply_language: zh-CN
-  fallback_behavior: init_prompt_only
-observability:
-  enable_delivery_log: true
-  enable_channel_trace: true
+channel: feishu
+connection_mode: websocket
+
+defaults:
+  dmPolicy: open
+  groupPolicy: open
+  requireMention: true
+  allowFrom:
+    - "*"
+
+bindings:
+  - accountId: default
+    agentId: main
+
+  - accountId: stockbot
+    agentId: stock-agent
+
+  - accountId: educationbot
+    agentId: education-agent
+
+  - accountId: loanbot
+    agentId: loan-agent
+
+  - accountId: socialbot
+    agentId: social-media-agent
+
+  - accountId: newsbot
+    agentId: news-agent
+
+  - accountId: salesbot
+    agentId: sales-agent

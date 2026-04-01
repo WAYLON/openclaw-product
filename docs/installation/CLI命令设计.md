@@ -90,11 +90,11 @@
 ./agent-platform secret set <target> <key> --value "<value>" --scope <scope>
 ```
 
-示例：
+说明：
 
-```bash
-./agent-platform secret set education-agent openmaic_api_key --value "your-key" --scope agent
-```
+- 当前 `openmaic` 不再走这里的 `secret set`
+- 它改为写入 `~/.openclaw/openclaw.json`
+- 当前 `secret set` 主要用于项目模板侧的通用 secret 流程，不作为这套实装基线
 
 ### 查看密钥
 
@@ -123,7 +123,6 @@
 ```bash
 ./agent-platform agent install education-agent
 ./agent-platform openclaw export education-agent
-./agent-platform secret set education-agent openmaic_api_key --value "your-key" --scope agent
 ```
 
 ### 查看当前项目状态

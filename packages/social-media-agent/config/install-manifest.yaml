@@ -1,0 +1,27 @@
+package:
+  id: social-media-agent
+  display_name: 社交媒体专业包
+  language: zh-CN
+  summary: 社交媒体热点观察、内容整理、选题归纳与分发辅助
+  install_mode: parallel_agent_package
+  deployment_mode: shared_skill_first
+  requires:
+    platform_initialized: true
+    docs_complete: true
+  includes:
+    - agent.yaml
+    - soul.yaml
+    - prompts/
+    - skills/catalog.yaml
+    - docs/quickstart.md
+    - docs/user-guide.md
+    - docs/trainer-guide.md
+    - docs/faq.md
+    - docs/examples.md
+    - docs/image-plan.md
+  required_keys: []
+  supports:
+    independent_install: true
+    independent_enable: true
+    independent_upgrade: true
+    independent_offline: false

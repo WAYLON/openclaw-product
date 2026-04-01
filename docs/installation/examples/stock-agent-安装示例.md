@@ -4,7 +4,7 @@
 
 ## 1. 前置条件
 
-先按官方方式安装 OpenClaw：
+先按官方方式安装最新稳定版 OpenClaw：
 
 ```bash
 curl -fsSL https://openclaw.ai/install.sh | bash

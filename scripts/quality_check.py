@@ -6,6 +6,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent.parent
+EXPECTED_AGENT_COUNT = 6
 
 
 def main() -> int:
@@ -21,7 +22,7 @@ def main() -> int:
         ROOT / ".github" / "workflows" / "ci.yml",
         ROOT / ".github" / "CODEOWNERS",
         ROOT / "docs" / "installation" / "平台安装教程.md",
-        ROOT / "docs" / "installation" / "8个Agent-渠道绑定与模型分配总表.md",
+        ROOT / "docs" / "installation" / "7个Agent-渠道绑定与模型分配总表.md",
         ROOT / "docs" / "delivery" / "版本发布流程.md",
     ]
 
@@ -37,10 +38,10 @@ def main() -> int:
     checks.append(("Python 语法检查", compile_result.returncode == 0, compile_result.stderr.strip()))
 
     installed_agents = sorted((ROOT / "agents").glob("*/agent.yaml"))
-    checks.append(("Agent 模板数量不少于 8", len(installed_agents) >= 8, str(len(installed_agents))))
+    checks.append((f"业务 Agent 模板数量不少于 {EXPECTED_AGENT_COUNT}", len(installed_agents) >= EXPECTED_AGENT_COUNT, str(len(installed_agents))))
 
     package_docs = sorted((ROOT / "packages").glob("*/docs/trainer-guide.md"))
-    checks.append(("交付包 trainer-guide 覆盖 8 个 Agent", len(package_docs) >= 8, str(len(package_docs))))
+    checks.append((f"交付包 trainer-guide 覆盖 {EXPECTED_AGENT_COUNT} 个业务 Agent", len(package_docs) >= EXPECTED_AGENT_COUNT, str(len(package_docs))))
 
     failed = [item for item in checks if not item[1]]
     for label, ok, detail in checks:

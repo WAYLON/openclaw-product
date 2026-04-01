@@ -1,81 +1,63 @@
 platform_default:
-  provider: codex
-  model: GPT-5.4
-  reasoning_effort: medium
-
-tenant_default:
-  provider: codex
-  model: GPT-5.4
+  provider: local-proxy
+  model: gpt-5.4
   reasoning_effort: medium
 
 agents:
-  stock-agent:
-    provider: codex
-    model: GPT-5.4
+  main:
+    provider: local-proxy
+    model: gpt-5.4
     reasoning_effort: medium
-    profile: research_deep
-    fallback_chain:
-      - provider: local-openai
-        model: gpt-5.4
-        reasoning_effort: low
+    profile: skill_admin
 
   education-agent:
-    provider: codex
-    model: GPT-5.4
+    provider: local-proxy
+    model: gpt-5.4
     reasoning_effort: medium
     profile: teaching_multimodal
-    fallback_chain:
-      - provider: local-openai
-        model: gpt-5.4
-        reasoning_effort: low
 
-  news-agent:
-    provider: codex
-    model: GPT-5.4
-    reasoning_effort: low
-    profile: brief_fast
+  stock-agent:
+    provider: local-proxy
+    model: gpt-5.4
+    reasoning_effort: medium
+    profile: research_deep
 
   loan-agent:
-    provider: codex
-    model: GPT-5.4
+    provider: local-proxy
+    model: gpt-5.4
     reasoning_effort: medium
     profile: compliance_structured
 
-  local-commerce-agent:
-    provider: codex
-    model: GPT-5.4
+  social-media-agent:
+    provider: local-proxy
+    model: gpt-5.4
     reasoning_effort: low
-    profile: conversion_fast
+    profile: social_content_ops
 
-  photo-polisher:
-    provider: codex
-    model: GPT-5.4
+  news-agent:
+    provider: local-proxy
+    model: gpt-5.4
     reasoning_effort: low
-    profile: vision_orchestrator
+    profile: brief_fast
 
   sales-agent:
-    provider: codex
-    model: GPT-5.4
+    provider: local-proxy
+    model: gpt-5.4
     reasoning_effort: low
     profile: dialogue_conversion
 
-  legal-agent:
-    provider: codex
-    model: GPT-5.4
-    reasoning_effort: high
-    profile: contract_review
-
 channels:
-  stockbot:
-    bound_agent_id: stock-agent
-    model_override:
-      response_style: professional
+  default:
+    bound_agent_id: main
   educationbot:
     bound_agent_id: education-agent
-    model_override:
-      response_style: teacher_friendly
+  stockbot:
+    bound_agent_id: stock-agent
+  loanbot:
+    bound_agent_id: loan-agent
+  socialbot:
+    bound_agent_id: social-media-agent
+  newsbot:
+    bound_agent_id: news-agent
   salesbot:
     bound_agent_id: sales-agent
-    model_override:
-      response_style: concise
-      reasoning_effort: low

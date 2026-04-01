@@ -4,6 +4,7 @@ from __future__ import annotations
 import os
 import argparse
 import json
+import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -55,8 +56,8 @@ def cmd_init(args: argparse.Namespace) -> int:
         {
             "initialized_at": now_iso(),
             "default_model": {
-                "provider": "codex",
-                "model": "GPT-5.4",
+                "provider": "local-proxy",
+                "model": "gpt-5.4",
                 "reasoning_effort": "medium",
             },
             "permission_profile": "default_open_profile",
@@ -97,8 +98,8 @@ def cmd_doctor(args: argparse.Namespace) -> int:
     if not (ROOT / "docs" / "architecture" / "平台总体架构与交付设计.md").exists():
         issues.append("缺少平台总设计文档")
     agent_count = len(list((ROOT / "agents").glob("*/agent.yaml")))
-    if agent_count < 8:
-        issues.append("Agent 数量不足 8 个")
+    if agent_count < 6:
+        issues.append("业务 Agent 模板数量不足 6 个")
     if issues:
         print("检查未通过：")
         for issue in issues:
@@ -168,6 +169,32 @@ def cmd_agent_list(args: argparse.Namespace) -> int:
         status = "enabled" if payload.get("enabled") else "disabled"
         workspace_dir = payload.get("workspace_dir", "-")
         print(f"{payload.get('agent_id')}  {status}  {workspace_dir}")
+    return 0
+
+
+def cmd_agent_cleanup(args: argparse.Namespace) -> int:
+    ensure_state()
+    removed = []
+    for record in sorted(AGENTS_DIR.glob("*.json")):
+        payload = read_json(record)
+        agent_id = payload.get("agent_id")
+        if not agent_id:
+            continue
+        if package_exists(agent_id):
+            continue
+        record.unlink(missing_ok=True)
+        workspace_dir = WORKSPACES_DIR / agent_id
+        if workspace_dir.exists():
+            import shutil
+            shutil.rmtree(workspace_dir)
+        removed.append(agent_id)
+
+    if not removed:
+        print("没有发现失效的 Agent 安装记录")
+        return 0
+    print("已清理失效的 Agent 安装记录：")
+    for agent_id in removed:
+        print(f"- {agent_id}")
     return 0
 
 
@@ -253,6 +280,63 @@ def cmd_openclaw_export(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_openclaw_export_all(args: argparse.Namespace) -> int:
+    ensure_state()
+    records = sorted(AGENTS_DIR.glob("*.json"))
+    if not records:
+        print("当前没有已安装 Agent 模板，请先执行 ./agent-platform agent install <agent_id>")
+        return 1
+
+    from installer.sync_to_openclaw import sync_workspace
+
+    openclaw_home = Path(args.openclaw_home).expanduser()
+    parallel_root = Path(args.parallel_root).expanduser() if args.parallel_root else openclaw_home / "parallel-agents"
+    synced = []
+    skipped = []
+
+    for record in records:
+        payload = read_json(record)
+        agent_id = payload.get("agent_id")
+        if not agent_id:
+            continue
+        if not package_exists(agent_id):
+            skipped.append(agent_id)
+            print(f"跳过失效记录: {agent_id}")
+            continue
+        result = sync_workspace(agent_id, openclaw_home, parallel_root)
+        synced.append(result)
+        print(f"已同步: {agent_id}")
+        print(f"- target_workspace: {result['target_workspace']}")
+        print(f"- target_state_dir: {result['target_state_dir']}")
+
+    print("批量同步完成")
+    print(f"- count: {len(synced)}")
+    if skipped:
+        print(f"- skipped: {', '.join(skipped)}")
+    return 0
+
+
+def cmd_delivery_check(args: argparse.Namespace) -> int:
+    script = ROOT / "scripts" / "delivery_check.py"
+    result = subprocess.run([sys.executable, str(script)], cwd=ROOT)
+    return result.returncode
+
+
+def cmd_acceptance(args: argparse.Namespace) -> int:
+    script = ROOT / "scripts" / "acceptance_check.py"
+    cmd = [sys.executable, str(script)]
+    if getattr(args, "probe_channels", False):
+        cmd.append("--probe-channels")
+    if getattr(args, "smoke", False):
+        cmd.append("--smoke")
+    if getattr(args, "scenario", False):
+        cmd.append("--scenario")
+    if getattr(args, "report", ""):
+        cmd.extend(["--report", args.report])
+    result = subprocess.run(cmd, cwd=ROOT)
+    return result.returncode
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="agent-platform",
@@ -274,6 +358,7 @@ def build_parser() -> argparse.ArgumentParser:
     disable = agent_sub.add_parser("disable", help="停用一个已安装 Agent 模板")
     disable.add_argument("agent_id")
     agent_sub.add_parser("list", help="查看已安装 Agent 模板")
+    agent_sub.add_parser("cleanup", help="清理已经从项目中删除的旧 Agent 安装记录")
     uninstall = agent_sub.add_parser("uninstall", help="卸载一个已安装 Agent 模板")
     uninstall.add_argument("agent_id")
 
@@ -298,6 +383,19 @@ def build_parser() -> argparse.ArgumentParser:
     export.add_argument("agent_id")
     export.add_argument("--openclaw-home", default=str(Path.home() / ".openclaw"))
     export.add_argument("--parallel-root", default="")
+    export_all = openclaw_sub.add_parser("export-all", help="把全部已安装 Agent 模板批量同步到本机 OpenClaw 目录")
+    export_all.add_argument("--openclaw-home", default=str(Path.home() / ".openclaw"))
+    export_all.add_argument("--parallel-root", default="")
+
+    delivery = sub.add_parser("delivery", help="交付检查入口")
+    delivery_sub = delivery.add_subparsers(dest="delivery_command", required=True)
+    delivery_sub.add_parser("check", help="执行交付结构检查")
+
+    acceptance = sub.add_parser("acceptance", help="本机最小验收入口")
+    acceptance.add_argument("--probe-channels", action="store_true", help="附加执行 channels --probe")
+    acceptance.add_argument("--smoke", action="store_true", help="附加执行 6 个业务 Agent 的最小回复测试")
+    acceptance.add_argument("--scenario", action="store_true", help="按角色验收模板执行标准场景问题")
+    acceptance.add_argument("--report", default="", help="把验收结果写入 Markdown 文件")
 
     return parser
 
@@ -323,6 +421,8 @@ def main() -> int:
             return cmd_agent_enable(args, False)
         if args.agent_command == "list":
             return cmd_agent_list(args)
+        if args.agent_command == "cleanup":
+            return cmd_agent_cleanup(args)
         if args.agent_command == "uninstall":
             return cmd_agent_uninstall(args)
     if args.command == "secret":
@@ -335,6 +435,13 @@ def main() -> int:
     if args.command == "openclaw":
         if args.openclaw_command == "export":
             return cmd_openclaw_export(args)
+        if args.openclaw_command == "export-all":
+            return cmd_openclaw_export_all(args)
+    if args.command == "delivery":
+        if args.delivery_command == "check":
+            return cmd_delivery_check(args)
+    if args.command == "acceptance":
+        return cmd_acceptance(args)
     parser.print_help()
     return 1
 

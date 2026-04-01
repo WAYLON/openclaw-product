@@ -4,6 +4,7 @@ package:
   language: zh-CN
   summary: A 股研究辅助、风险提示、行情观察与研究摘要交付
   install_mode: parallel_agent_package
+  deployment_mode: hosted_only
   requires:
     platform_initialized: true
     docs_complete: true
@@ -21,10 +22,14 @@ package:
     - docs/faq.md
     - docs/examples.md
     - docs/image-plan.md
-  # 当前专业包可先安装；外部研究增强与行情接入凭证按需初始化。
-  required_keys: []
+  # 当前按线上托管模式交付，不做本地部署。
+  required_keys:
+    - name: TRADINGAGENTS_TOKEN
+      scope: launchagent_env
+      required: true
+      purpose: TradingAgents hosted API 调用凭证
   supports:
     independent_install: true
     independent_enable: true
     independent_upgrade: true
-    independent_offline: true
+    independent_offline: false

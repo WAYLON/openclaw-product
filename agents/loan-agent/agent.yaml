@@ -3,17 +3,10 @@ name: 助贷 Agent
 package_name: 助贷专业包
 language: zh-CN
 model:
-  provider: codex
-  model: GPT-5.4
+  provider: local-proxy
+  model: gpt-5.4
   reasoning_effort: medium
   profile: compliance_structured
-  fallback_chain:
-  - provider: codex
-    model: GPT-5.4
-    reasoning_effort: medium
-  - provider: local-openai
-    model: gpt-5.4
-    reasoning_effort: low
 runtime:
   memory_namespace: memory/loan-agent
   permission_profile: default_open_profile
@@ -24,22 +17,17 @@ docs:
   faq: docs/faq.md
   examples: docs/examples.md
 skills:
-  layout: direct-local
-  catalog: skills/catalog.yaml
-  entries:
-  - web-access
-  - summarize
-  - benos-memory-core
-  - ontology
-  - lead-intake-form
-  - loan-intent-capture
-  - eligibility-precheck
-  - material-checklist-guide
-  - id-card-ocr-parse
-  - income-doc-parse
-  - bank-statement-parse
-  - application-form-filler
-  - crm-lead-sync
-  - appointment-booking
-  - contract-sign-flow
-  - compliance-reminder
+  layout: shared-plus-private
+  shared_baseline:
+    - web-access
+    - opencli
+    - self-improving-agent
+    - skill-vetter
+    - summarize
+    - agent-browser
+    - nano-pdf
+    - nano-banana-pro
+    - excel-xlsx
+    - word-docx
+    - desktop-control
+  entries: []

@@ -3,17 +3,10 @@ name: 教育 Agent
 package_name: 教育专业包
 language: zh-CN
 model:
-  provider: codex
-  model: GPT-5.4
+  provider: local-proxy
+  model: gpt-5.4
   reasoning_effort: medium
   profile: teaching_multimodal
-  fallback_chain:
-  - provider: codex
-    model: GPT-5.4
-    reasoning_effort: medium
-  - provider: local-openai
-    model: gpt-5.4
-    reasoning_effort: low
 runtime:
   memory_namespace: memory/education-agent
   permission_profile: default_open_profile
@@ -24,25 +17,18 @@ docs:
   faq: docs/faq.md
   examples: docs/examples.md
 skills:
-  layout: direct-local
-  catalog: skills/catalog.yaml
+  layout: shared-plus-private
+  shared_baseline:
+    - web-access
+    - opencli
+    - self-improving-agent
+    - skill-vetter
+    - summarize
+    - agent-browser
+    - nano-pdf
+    - nano-banana-pro
+    - excel-xlsx
+    - word-docx
+    - desktop-control
   entries:
-  - web-access
-  - summarize
-  - benos-memory-core
-  - ontology
-  - lesson-topic-planner
-  - lesson-outline-generator
-  - slide-class-generator
-  - quiz-generator
-  - live-quiz-runtime
-  - practice-exam-engine
-  - interactive-classroom-builder
-  - teaching-material-parser
-  - study-path-advisor
-  - assignment-generator
-  - teacher-ta-mode
-  - class-exporter
-  - classroom-speech-transcriber
-  - lesson-voice-narrator
-  - oral-practice-coach
+    - openmaic

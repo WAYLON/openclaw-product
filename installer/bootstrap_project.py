@@ -13,6 +13,7 @@ WORKSPACES_DIR = PLATFORM_DIR / "workspaces"
 SECRETS_DIR = PLATFORM_DIR / "secrets"
 RUNTIME_FILE = PLATFORM_DIR / "runtime.json"
 PLATFORM_FILE = PLATFORM_DIR / "platform.json"
+EXPECTED_AGENT_COUNT = 6
 
 REQUIRED_TOP_LEVEL_DIRS = [
     "core",
@@ -78,8 +79,8 @@ def validate_project_structure() -> list[str]:
         if not (ROOT / relpath).exists():
             issues.append(f"缺少平台文档：{relpath}")
     agent_yaml_count = len(list((ROOT / "agents").glob("*/agent.yaml")))
-    if agent_yaml_count < 8:
-        issues.append(f"Agent 数量不足 8 个，当前仅有 {agent_yaml_count} 个")
+    if agent_yaml_count < EXPECTED_AGENT_COUNT:
+        issues.append(f"业务 Agent 模板数量不足 {EXPECTED_AGENT_COUNT} 个，当前仅有 {agent_yaml_count} 个")
     return issues
 
 
@@ -87,8 +88,8 @@ def default_platform_payload() -> dict:
     return {
         "initialized_at": now_iso(),
         "default_model": {
-            "provider": "codex",
-            "model": "GPT-5.4",
+            "provider": "local-proxy",
+            "model": "gpt-5.4",
             "reasoning_effort": "medium",
         },
         "permission_profile": "default_open_profile",
@@ -96,6 +97,7 @@ def default_platform_payload() -> dict:
         "docs_language": "zh-CN",
         "notes": [
             "本平台采用平行 Agent 架构。",
+            "当前推荐运行态为 7 个角色：1 个 main + 6 个业务 Agent。",
             "一个渠道实例只绑定一个 Agent。",
             "Soul、Prompt、文档与讲师资料默认中文。",
         ],

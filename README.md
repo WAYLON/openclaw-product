@@ -1,127 +1,192 @@
-# OpenClaw Parallel Agent Platform
+# OpenClaw 实战交付工程
 
-这是一个基于 OpenClaw 的平行 Agent 内容模板与交付工程，不再只是概念骨架。
+这是一个基于 OpenClaw 的多 Agent 实战交付仓库。
 
-当前安装口径：
-- OpenClaw 本体、Agent 注册、渠道绑定：优先使用官方命令
-- `agent-platform`：仅用于模板生成、工作区同步和交付自动化，不替代官方安装流程
+这次重写后的口径，不再以早期概念模板为准，而是以当前这台 macOS 机器上已经实际跑通的环境为基线，并按当前首发的 `7` 个角色收敛：
 
-## 设计原则
-- 不设业务总控 Agent
-- 所有业务 Agent 平行独立
-- 一个渠道实例只绑定一个 Agent
-- 基础 skill 共享，灵魂、策略、记忆、文档独立
-- 所有对外文档、Soul、Prompt、教程默认中文
+- OpenClaw CLI / App：安装时以最新稳定版为准
+- Gateway：`~/Library/LaunchAgents/ai.openclaw.gateway.plist`
+- 默认模型：`local-proxy/gpt-5.4`
+- 运行模式：本机 `local` + LaunchAgent 守护
+- 当前首发 Agent 总数：`7`
+  - `main`（默认入口 / 技能管理员）
+  - `education-agent`
+  - `stock-agent`
+  - `loan-agent`
+  - `social-media-agent`
+  - `news-agent`
+  - `sales-agent`
+- 渠道：飞书 `7` 个机器人，对应 `7` 个 Agent
+- 长期记忆插件：`memory-lancedb-pro`
+- 上下文压缩插件：`lossless-claw`
+
+## 当前项目目标
+
+这个仓库现在承担 4 件事：
+
+1. 固化这套已经跑通的 OpenClaw 生产口径
+2. 管理当前首发 7 个 Agent 的模板、专有 skill 和交付资料
+3. 管理共享基础 skill 的分配规则
+4. 给新机器复刻出相同的安装、配置和交付结构
+
+## 当前运行基线
+
+真实运行态现在直接是：
+
+- `local-proxy / gpt-5.4`
+- `baseUrl = http://127.0.0.1:8080/v1`
+- `apiKey = pwd`
+
+这套链路是当前机器上已经验证过稳定且明显快于 `openai-codex` OAuth 的方案。
+
+## 核心设计原则
+
+- 所有安装动作优先走官方文档与官方命令
+- 不设业务总控 Agent，业务 Agent 平行独立
+- `main` 只做默认入口与技能管理员，不做业务总控分发
+- 一个飞书机器人只绑定一个 Agent
+- 共享 skill 放在 `~/.openclaw/skills`
+- 专有 skill 放在 `~/.openclaw/workspaces/<agent>/skills`
+- 后台运行时用到的 key，统一写入 LaunchAgent 环境变量并重启 gateway
+- skill 明确要求写配置文件的，再写进 `openclaw.json`
+
+## 当前共享技能基线
+
+当前已纳入全局共享基础技能的有：
+
+- `web-access`
+- `opencli`
+- `self-improving-agent`
+- `skill-vetter`
+- `skill-creator`
+- `summarize`
+- `agent-browser`
+- `nano-pdf`
+- `nano-banana-pro`
+- `excel-xlsx`
+- `word-docx`
+- `desktop-control`
+
+其中：
+
+- `main` 额外显式挂了 `skill-creator`
+- 所有 Agent 当前都使用 `tools.profile = full`
+
+## 当前专有技能
+
+- `stock-agent`
+  - `tradingagents-analysis`
+- `education-agent`
+  - `openmaic`
+- `social-media-agent`
+  - 当前首发先依赖共享技能，不额外挂专有 skill
 
 ## 目录说明
 
-### 顶层关键文档
-- [docs/architecture/平台总体架构与交付设计.md](/Users/waylon/Desktop/openclaw-product/docs/architecture/平台总体架构与交付设计.md)：总设计文档，讲架构原则、分层边界、8 个 Agent 的总体设计。
-- [docs/guides/老师讲解总提纲.md](/Users/waylon/Desktop/openclaw-product/docs/guides/老师讲解总提纲.md)：给老师和实施同学的讲解顺序总提纲。
-
-### 顶层目录作用
-- `core/`
-  - 放运行底座和公共能力。
-  - 主要包括配置加载、注册表、运行时基础类、密钥初始化守卫等。
-  - 这里解决“怎么跑”，不放业务人格和业务判断。
-
-- `channels/`
-  - 放渠道接入代码。
-  - 当前是飞书、企微、钉钉、webhook、webchat、api 等 connector。
-  - 它们只负责接入和转发，不负责判断该用哪个业务 Agent。
-
 - `agents/`
-  - 放 8 个专业 Agent 的源模板。
-  - 每个 Agent 目录里都有：
-    - `agent.yaml`
-    - `soul.yaml`
-    - `prompts/`
-    - `skills/`
-    - `policies/`
-    - `knowledge/`
-    - `docs/`
-    - `examples/`
-  - 这是“专业脑子”的主目录。
-
-- `agents/<agent>/skills/`
-  - 放这个 Agent 自己的全部技能。
-  - 现在不再单独做 adapter 层，也不再保留共享技能目录抽象。
-  - 每个 skill 都直接放在对应 Agent 里，方便客户理解、方便独立交付。
-
+  - 各业务 Agent 的模板定义、文档、专有 skill 说明
 - `packages/`
-  - 放最终交付包。
-  - 每个专业包目录对应一个 Agent，里面有：
-    - `README.md`
-    - `config/install-manifest.yaml`
-    - `docs/quickstart.md`
-    - `docs/user-guide.md`
-    - `docs/trainer-guide.md`
-    - `docs/faq.md`
-    - `docs/examples.md`
-  - 这是给客户交付的正式资料入口。
-
+  - 面向交付的专业包说明与安装清单
+- `channels/`
+  - 渠道接入 connector 模板
+- `core/`
+  - 底层装配、配置、注册与密钥处理逻辑
 - `installer/`
-  - 放模板同步、导出、校验、打包相关脚本。
-  - 这些脚本不替代官方 OpenClaw 安装，只负责：
-    - 生成模板
-    - 同步到本机 OpenClaw workspace
-    - 校验包结构
-    - 辅助交付
-
+  - 模板同步、导出、安装校验
 - `docs/`
-  - 放平台级文档。
-  - 主要包括：
-    - `installation/` 安装与绑定教程
-    - `architecture/` 架构设计说明
-    - `guides/` 老师讲解资料
-    - `delivery/` 交付、版本、实施说明
+  - 架构、安装、交付、讲解文档
 
-- `scripts/`
-  - 放项目级检查脚本。
-  - 当前主要是质量检查和全包校验，不承载业务逻辑。
+## 文档入口
 
-- `.github/`
-  - 放仓库协作与 CI 配置。
-  - 主要包括 GitHub Actions 和 `CODEOWNERS`。
+- [docs/architecture/平台总体架构与交付设计.md](/Users/waylon/Desktop/openclaw-product/docs/architecture/平台总体架构与交付设计.md)
+  - 当前项目的真实运行架构、技能分层、Key 规则、飞书绑定策略
+- [docs/installation/实际运行基线与重写说明.md](/Users/waylon/Desktop/openclaw-product/docs/installation/实际运行基线与重写说明.md)
+  - 按当前机器实际跑通的方式复刻
+- [docs/templates/agent-model-routing.example.yaml](/Users/waylon/Desktop/openclaw-product/docs/templates/agent-model-routing.example.yaml)
+  - 当前推荐模型路由模板
+- [docs/templates/channel-binding.example.yaml](/Users/waylon/Desktop/openclaw-product/docs/templates/channel-binding.example.yaml)
+  - 当前推荐飞书绑定模板
+- [docs/installation/记忆插件安装教程.md](/Users/waylon/Desktop/openclaw-product/docs/installation/记忆插件安装教程.md)
+  - `memory-lancedb-pro` 与 `lossless-claw` 的正式安装说明
+- [docs/delivery/专有技能新增规范.md](/Users/waylon/Desktop/openclaw-product/docs/delivery/专有技能新增规范.md)
+  - 后续给某个 Agent 增加专有技能时的统一规则
+- [docs/delivery/版本迁移模板.md](/Users/waylon/Desktop/openclaw-product/docs/delivery/版本迁移模板.md)
+  - 老客户增量升级模板
+- [docs/delivery/回滚模板.md](/Users/waylon/Desktop/openclaw-product/docs/delivery/回滚模板.md)
+  - 新技能上线失败时的标准回滚模板
+- [docs/guides/README.md](/Users/waylon/Desktop/openclaw-product/docs/guides/README.md)
+  - 使用、培训、人格审阅入口
+- [docs/delivery/README.md](/Users/waylon/Desktop/openclaw-product/docs/delivery/README.md)
+  - 交付、升级、回滚入口
 
-- `.platform/`
-  - 放项目运行时状态和模板安装后的内部产物。
-  - 例如：
-    - 已安装 Agent 状态
-    - 模板工作区
-    - 运行状态文件
-  - 这不是 OpenClaw 官方运行目录，而是本项目自己的模板/同步状态目录。
+## 推荐落地顺序
 
-- `examples/`
-  - 放平台级示例材料和演示脚本。
-  - 适合实施、销售、老师讲解时快速调用。
+1. 先按官方文档安装 OpenClaw CLI / App
+2. 用 CLI 初始化本机 OpenClaw
+3. 按官方文档安装并启用飞书官方插件
+4. 配置 `local-proxy/gpt-5.4`
+5. 配置 7 个飞书机器人与 7 个 Agent 的绑定
+6. 启用 `memory-lancedb-pro` 和 `lossless-claw`
+7. 安装共享基础 skill
+8. 再给 `stock-agent` / `education-agent` 等加专有 skill
 
-## 企业级工程能力
-- [pyproject.toml](/Users/waylon/Desktop/openclaw-product/pyproject.toml)：项目元数据与依赖声明
-- [requirements.txt](/Users/waylon/Desktop/openclaw-product/requirements.txt)：运行依赖
-- [Makefile](/Users/waylon/Desktop/openclaw-product/Makefile)：统一命令入口
-- [scripts/quality_check.py](/Users/waylon/Desktop/openclaw-product/scripts/quality_check.py)：质量检查
-- [scripts/check_all_packages.py](/Users/waylon/Desktop/openclaw-product/scripts/check_all_packages.py)：全包安装校验
-- [.github/workflows/ci.yml](/Users/waylon/Desktop/openclaw-product/.github/workflows/ci.yml)：持续集成
-- [CONTRIBUTING.md](/Users/waylon/Desktop/openclaw-product/CONTRIBUTING.md)：协作规范
-- [企业级优化说明.md](/Users/waylon/Desktop/openclaw-product/docs/delivery/企业级优化说明.md)：本轮工程化升级说明
-- [版本发布流程.md](/Users/waylon/Desktop/openclaw-product/docs/delivery/版本发布流程.md)：发布前检查流程
+## 后续新增专有技能的默认策略
+
+- 只做增量，不做覆盖
+- 先改模板和文档，再迁移客户现场
+- 不直接覆盖客户已运行一段时间的 `openclaw.json`
+- 不改已有 `agent id`、渠道绑定、记忆命名空间
+- 新 skill 默认按“可选启用”处理
+
+具体执行时，统一参考这三份文档：
+
+- [docs/delivery/专有技能新增规范.md](/Users/waylon/Desktop/openclaw-product/docs/delivery/专有技能新增规范.md)
+- [docs/delivery/版本迁移模板.md](/Users/waylon/Desktop/openclaw-product/docs/delivery/版本迁移模板.md)
+- [docs/delivery/回滚模板.md](/Users/waylon/Desktop/openclaw-product/docs/delivery/回滚模板.md)
+
+其中已经补清楚：
+
+- 每个业务 Agent 分别适合新增什么类型的专有技能
+- 每个 Agent 应该改哪些文件
+- 老客户现场升级顺序
+- 哪些动作不能做
+- 出问题后如何只回滚目标 skill，而不影响已稳定运行的人
 
 ## 推荐命令
+
 ```bash
-curl -fsSL https://openclaw.ai/install.sh | bash
-openclaw onboard --install-daemon
-openclaw agents add stock-agent
+npm install -g openclaw
+openclaw onboard --mode local --flow quickstart --non-interactive --accept-risk --install-daemon --skip-channels --skip-search --skip-ui --skip-health --auth-choice skip
+npx -y @larksuite/openclaw-lark install
 
 make venv
 make bootstrap
 make doctor
 make quality
 make check-packages
-make ci
+make delivery-check
+make acceptance
 ```
 
-推荐顺序：
-1. 先用官方 `openclaw onboard`
-2. 再用官方 `openclaw agents add / set-identity / bind`
-3. 最后用本仓库把专业内容同步进各 Agent workspace
+补充：
+
+- `make delivery-check`
+  - 校验当前仓库是否具备可交付的 7 角色文档、模板和交付包结构
+- `make acceptance`
+  - 对本机 OpenClaw 环境执行最小只读验收
+  - 默认不跑 `channels --probe`
+  - 如需附加渠道探测或最小回复测试，可直接运行 `scripts/acceptance_check.py` 的参数版
+
+## 说明
+
+桌面上已经有两份真实安装文档：
+
+- `/Users/waylon/Desktop/OpenClaw-安装部署指南-精简版.md`
+- `/Users/waylon/Desktop/OpenClaw-安装与排障记录.md`
+
+本仓库现在默认以那两份文档为最终安装基线。
+
+补充：
+
+- OpenClaw 本体安装、飞书插件安装、Agent 创建与渠道绑定，默认都先遵循官方文档
+- 本仓库主要补充的是：7 角色交付结构、共享技能、专有技能、记忆插件、Key 规则和迁移回滚规范

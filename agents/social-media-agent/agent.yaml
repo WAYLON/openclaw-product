@@ -1,0 +1,34 @@
+id: social-media-agent
+name: 社交媒体 Agent
+package_name: 社交媒体专业包
+language: zh-CN
+model:
+  provider: local-proxy
+  model: gpt-5.4
+  reasoning_effort: low
+  profile: social_content_ops
+runtime:
+  memory_namespace: memory/social-media-agent
+  permission_profile: default_open_profile
+docs:
+  quickstart: docs/quickstart.md
+  user_guide: docs/user-guide.md
+  trainer_guide: docs/trainer-guide.md
+  faq: docs/faq.md
+  examples: docs/examples.md
+skills:
+  catalog: skills/catalog.yaml
+  layout: shared-plus-private
+  shared_baseline:
+    - web-access
+    - opencli
+    - self-improving-agent
+    - skill-vetter
+    - summarize
+    - agent-browser
+    - nano-pdf
+    - nano-banana-pro
+    - excel-xlsx
+    - word-docx
+    - desktop-control
+  entries: []
