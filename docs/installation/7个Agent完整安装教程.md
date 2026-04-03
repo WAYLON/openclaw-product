@@ -6,7 +6,7 @@
 
 如果这台机器之前装过 OpenClaw，不要直接覆盖安装，先走：
 
-- [重装与清理路径.md](/Users/waylon/Desktop/openclaw-product/docs/installation/重装与清理路径.md)
+- [安装与升级路径.md](/Users/waylon/Desktop/openclaw-product/docs/installation/安装与升级路径.md)
 
 固定顺序：
 
@@ -73,6 +73,11 @@ done
 说明：
 
 - `main` 是默认入口，不需要额外创建
+- 这一步会由官方在客户现场生成每个 Agent 的：
+  - `soul.yaml`
+  - `AGENTS.md`
+  - `IDENTITY.md`
+- 本项目后续不覆盖这三类文件
 
 ## 4. 安装共享技能
 
@@ -123,6 +128,11 @@ Chrome 远程调试要求：
   - `tradingagents-analysis`
 - `education-agent`
   - `openmaic`
+
+说明：
+
+- 本项目只同步专有 `skills/`
+- 不同步或覆盖客户现场已由官方生成的 `soul.yaml / AGENTS.md / IDENTITY.md`
 
 ## 6. 绑定飞书
 

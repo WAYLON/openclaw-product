@@ -10,8 +10,6 @@ class DocsPackager:
         "quickstart.md",
         "user-guide.md",
         "trainer-guide.md",
-        "faq.md",
-        "examples.md",
     ]
 
     def validate(self, docs_dir: Path) -> list[str]:

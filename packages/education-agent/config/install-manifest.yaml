@@ -9,19 +9,10 @@ package:
     platform_initialized: true
     docs_complete: true
   includes:
-    - soul.yaml
-    - AGENTS.md
-    - IDENTITY.md
     - skills/
-    - policies/default_open_profile.yaml
-    - policies/restricted_profile.yaml
-    - policies/high_risk_profile.yaml
     - docs/quickstart.md
     - docs/user-guide.md
     - docs/trainer-guide.md
-    - docs/faq.md
-    - docs/examples.md
-    - docs/image-plan.md
   # 当前按 hosted 模式交付，不做本地部署。
   required_keys:
     - name: OPENMAIC_ACCESS_CODE

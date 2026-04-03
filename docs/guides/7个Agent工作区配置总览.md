@@ -1,6 +1,6 @@
-# 7 个 Agent 工作区配置总览
+# 7 个 Agent 技能包总览
 
-> 这份文档用于快速审阅当前首发 7 个 Agent 的工作区配置、边界、默认定位和真实能力口径。
+> 这份文档用于快速审阅当前首发 7 个 Agent 的技能包范围、真实能力口径和安装边界。
 
 ## 当前 Agent 名单
 
@@ -15,12 +15,6 @@
 ## 1. 主入口 Agent
 
 - 技术标识：`main`
-- soul 文件：
-  - [main-soul.example.yaml](/Users/waylon/Desktop/openclaw-product/docs/templates/main-soul.example.yaml)
-- 工作规则模板：
-  - [main-AGENTS.example.md](/Users/waylon/Desktop/openclaw-product/docs/templates/main-AGENTS.example.md)
-- 身份模板：
-  - [main-IDENTITY.example.md](/Users/waylon/Desktop/openclaw-product/docs/templates/main-IDENTITY.example.md)
 - Agent 定位：
   - 默认入口
   - 技能管理员
@@ -32,8 +26,6 @@
 ## 2. 教育 Agent
 
 - 技术标识：`education-agent`
-- soul 文件：
-  - [education-agent/soul.yaml](/Users/waylon/Desktop/openclaw-product/agents/education-agent/soul.yaml)
 - Agent 定位：
   - 中文教学设计师与课堂助教
   - 偏备课、讲义整理、课堂活动、练习设计、课堂讲解
@@ -46,8 +38,6 @@
 ## 3. 股票 Agent
 
 - 技术标识：`stock-agent`
-- soul 文件：
-  - [stock-agent/soul.yaml](/Users/waylon/Desktop/openclaw-product/agents/stock-agent/soul.yaml)
 - Agent 定位：
   - 中文投研辅助与风险提示顾问
   - 偏 A 股研究、风险提示、研究框架、复盘和讲解
@@ -62,8 +52,6 @@
 ## 4. 助贷 Agent
 
 - 技术标识：`loan-agent`
-- soul 文件：
-  - [loan-agent/soul.yaml](/Users/waylon/Desktop/openclaw-product/agents/loan-agent/soul.yaml)
 - Agent 定位：
   - 中文助贷初筛与材料引导顾问
   - 偏材料说明、资格预检、合规提醒、预约推进
@@ -77,8 +65,6 @@
 ## 5. 社媒 Agent
 
 - 技术标识：`social-media-agent`
-- soul 文件：
-  - [social-media-agent/soul.yaml](/Users/waylon/Desktop/openclaw-product/agents/social-media-agent/soul.yaml)
 - Agent 定位：
   - 中文社媒浏览与内容运营辅助顾问
   - 偏热点整理、网页抽取、内容摘要、提纲与分发建议
@@ -92,8 +78,6 @@
 ## 6. 新闻 Agent
 
 - 技术标识：`news-agent`
-- soul 文件：
-  - [news-agent/soul.yaml](/Users/waylon/Desktop/openclaw-product/agents/news-agent/soul.yaml)
 - Agent 定位：
   - 中文资讯编辑与情报整理助手
   - 偏摘要、归并、简报、竞品内容整理
@@ -107,8 +91,6 @@
 ## 7. 销售 Agent
 
 - 技术标识：`sales-agent`
-- soul 文件：
-  - [sales-agent/soul.yaml](/Users/waylon/Desktop/openclaw-product/agents/sales-agent/soul.yaml)
 - Agent 定位：
   - 中文销售转化与跟进辅助顾问
   - 偏 FAQ、线索识别、跟进建议、阶段推进与记录整理
@@ -121,13 +103,13 @@
 
 ## 统一审阅标准
 
-审 7 个 Agent 时，优先看这几件事：
+审 7 个 Agent 技能包时，优先看这几件事：
 
 - 名字是否统一中文显示
 - 是否符合当前真实安装基线
 - 没接好的能力有没有被写成已上线
 - Agent 边界是否清楚
-- 是否和其他 Agent 串工作区配置
+- 是否和其他 Agent 串技能边界
 - 是否把高风险动作写成默认能力
 
 ## 当前真实口径提醒
@@ -143,3 +125,4 @@
 - 这两个专有能力当前按“已接入事实”记录：
   - 项目仓库不再强行捆绑它们的历史源码副本
   - 运行时是否可见，仍以现场安装、会话快照和验收结果为准
+- 客户现场的 `soul.yaml / AGENTS.md / IDENTITY.md` 由官方生成，不在本仓库中定义

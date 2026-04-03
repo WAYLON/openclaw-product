@@ -7,17 +7,8 @@ from core.config.config_loader import ConfigLoader
 
 
 REQUIRED_SUPPORT_FILES = [
-    "README.md",
     "config/install-manifest.yaml",
-    "examples/trainer-demo-script.md",
 ]
-
-REQUIRED_AGENT_FILES = [
-    "soul.yaml",
-    "AGENTS.md",
-    "IDENTITY.md",
-]
-
 
 def validate_package(package_dir: Path, source_agent_dir: Path | None = None) -> list[str]:
     """校验专业包是否满足正式交付最低要求。
@@ -26,7 +17,7 @@ def validate_package(package_dir: Path, source_agent_dir: Path | None = None) ->
     - 包级 README
     - 安装清单
     - 讲师演示脚本
-    - 五份核心交付文档
+    - 三份核心交付文档
     """
 
     if not package_dir.exists():
@@ -37,7 +28,7 @@ def validate_package(package_dir: Path, source_agent_dir: Path | None = None) ->
         if not (package_dir / relpath).exists():
             missing.append(relpath)
 
-    required_package_docs = ["quickstart.md", "user-guide.md", "trainer-guide.md", "faq.md", "examples.md"]
+    required_package_docs = ["quickstart.md", "user-guide.md", "trainer-guide.md"]
     for name in required_package_docs:
         if not (package_dir / "docs" / name).exists():
             missing.append(f"docs/{name}")
@@ -46,9 +37,8 @@ def validate_package(package_dir: Path, source_agent_dir: Path | None = None) ->
         if not source_agent_dir.exists():
             missing.append(f"Agent 源目录不存在：{source_agent_dir}")
         else:
-            for relpath in REQUIRED_AGENT_FILES:
-                if not (source_agent_dir / relpath).exists():
-                    missing.append(f"agent/{relpath}")
+            if not (source_agent_dir / "skills").exists():
+                missing.append("agent/skills/")
 
     if missing:
         return missing

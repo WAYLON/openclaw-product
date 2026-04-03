@@ -8,19 +8,10 @@ package:
     platform_initialized: true
     docs_complete: true
   includes:
-    - soul.yaml
-    - AGENTS.md
-    - IDENTITY.md
     - skills/
-    - policies/default_open_profile.yaml
-    - policies/restricted_profile.yaml
-    - policies/high_risk_profile.yaml
     - docs/quickstart.md
     - docs/user-guide.md
     - docs/trainer-guide.md
-    - docs/faq.md
-    - docs/examples.md
-    - docs/image-plan.md
   # 当前专业包可先安装；订阅源、发布后台与联网增强凭证按需初始化。
   required_keys: []
   supports:

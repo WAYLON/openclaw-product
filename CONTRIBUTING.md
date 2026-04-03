@@ -18,10 +18,9 @@ make check-packages
 
 ## 3. 改动约束
 
-- 改 `agents/<agent>/AGENTS.md`、`IDENTITY.md` 或 `soul.yaml` 时，要同步检查：
+- 改 `agents/<agent>/skills/` 时，要同步检查：
   - `docs/`
   - `packages/<agent>/config/install-manifest.yaml`
-  - `skills/`
 - 改安装流程时，要同步检查：
   - `installer/`
   - `docs/installation/`

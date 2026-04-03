@@ -9,19 +9,10 @@ package:
     platform_initialized: true
     docs_complete: true
   includes:
-    - soul.yaml
-    - AGENTS.md
-    - IDENTITY.md
     - skills/
-    - policies/default_open_profile.yaml
-    - policies/restricted_profile.yaml
-    - policies/high_risk_profile.yaml
     - docs/quickstart.md
     - docs/user-guide.md
     - docs/trainer-guide.md
-    - docs/faq.md
-    - docs/examples.md
-    - docs/image-plan.md
   required_keys: []
   supports:
     independent_install: true

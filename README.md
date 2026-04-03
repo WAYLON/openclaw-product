@@ -2,7 +2,7 @@
 
 这是一个基于 OpenClaw 的多 Agent 实战交付仓库。
 
-这次重写后的口径，不再以早期概念模板为准，而是以当前这台 macOS 机器上已经实际跑通的环境为基线，并按当前首发的 `7` 个 Agent 收敛：
+当前项目口径，不再以早期概念模板为准，而是以当前这台 macOS 机器上已经实际跑通的环境为基线，并按当前首发的 `7` 个 Agent 收敛：
 
 - OpenClaw CLI / App：安装时以最新稳定版为准
 - `npm install -g openclaw` 默认只更新 CLI，不会自动下载或更新 `OpenClaw.app`
@@ -138,7 +138,7 @@
 
 - [docs/architecture/平台总体架构与交付设计.md](/Users/waylon/Desktop/openclaw-product/docs/architecture/平台总体架构与交付设计.md)
   - 当前项目的真实运行架构、技能分层、Key 规则、飞书绑定策略
-- [docs/installation/实际运行基线与重写说明.md](/Users/waylon/Desktop/openclaw-product/docs/installation/实际运行基线与重写说明.md)
+- [docs/installation/实际运行基线说明.md](/Users/waylon/Desktop/openclaw-product/docs/installation/实际运行基线说明.md)
   - 按当前机器实际跑通的方式复刻
 - [docs/templates/agent-model-routing.example.yaml](/Users/waylon/Desktop/openclaw-product/docs/templates/agent-model-routing.example.yaml)
   - 当前推荐模型路由模板

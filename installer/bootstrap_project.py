@@ -78,7 +78,7 @@ def validate_project_structure() -> list[str]:
     for relpath in REQUIRED_PLATFORM_DOCS:
         if not (ROOT / relpath).exists():
             issues.append(f"缺少平台文档：{relpath}")
-    agent_count = len(list((ROOT / "agents").glob("*/soul.yaml")))
+    agent_count = len([path for path in (ROOT / "agents").iterdir() if path.is_dir()])
     if agent_count < EXPECTED_AGENT_COUNT:
         issues.append(f"业务 Agent 模板数量不足 {EXPECTED_AGENT_COUNT} 个，当前仅有 {agent_count} 个")
     return issues
@@ -101,9 +101,9 @@ def default_platform_payload() -> dict:
         "docs_language": "zh-CN",
         "notes": [
             "本平台采用平行 Agent 架构。",
-            "当前推荐运行态为 7 个 Agent：1 个 main + 6 个业务 Agent。",
+            "当前推荐运行态为 1 个 main + 按需安装的业务 Agent。",
             "一个渠道实例只绑定一个 Agent。",
-            "Soul、Prompt、文档与讲师资料默认中文。",
+            "共享技能、安装文档与讲师资料默认中文。",
         ],
     }
 
@@ -134,7 +134,7 @@ def cmd_run(args: argparse.Namespace) -> int:
         return 1
 
     ensure_platform_state(force=args.force)
-    source_agent_count = len(list((ROOT / "agents").glob("*/soul.yaml")))
+    source_agent_count = len([path for path in (ROOT / "agents").iterdir() if path.is_dir()])
     installed_agent_count = len(list(AGENTS_DIR.glob("*.json")))
 
     print("平台初始化脚本执行完成")
@@ -159,7 +159,7 @@ def cmd_check(args: argparse.Namespace) -> int:
         return 1
 
     agent_states = sorted(AGENTS_DIR.glob("*.json"))
-    agent_sources = sorted((ROOT / "agents").glob("*/soul.yaml"))
+    agent_sources = sorted(path for path in (ROOT / "agents").iterdir() if path.is_dir())
     print("检查通过")
     print(f"- Agent 模板数: {len(agent_sources)}")
     print(f"- 已安装 Agent 数: {len(agent_states)}")
