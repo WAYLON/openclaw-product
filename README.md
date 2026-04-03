@@ -2,7 +2,7 @@
 
 这是一个基于 OpenClaw 的多 Agent 实战交付仓库。
 
-这次重写后的口径，不再以早期概念模板为准，而是以当前这台 macOS 机器上已经实际跑通的环境为基线，并按当前首发的 `7` 个角色收敛：
+这次重写后的口径，不再以早期概念模板为准，而是以当前这台 macOS 机器上已经实际跑通的环境为基线，并按当前首发的 `7` 个 Agent 收敛：
 
 - OpenClaw CLI / App：安装时以最新稳定版为准
 - `npm install -g openclaw` 默认只更新 CLI，不会自动下载或更新 `OpenClaw.app`
@@ -22,6 +22,7 @@
 - 渠道：飞书 `7` 个机器人，对应 `7` 个 Agent
 - 长期记忆插件：`memory-lancedb-pro`
 - 上下文压缩插件：`lossless-claw`
+- 可选主动引擎插件：`proactive-engine`（当前需先满足插件 API 版本要求）
 
 ## 当前项目目标
 
@@ -59,7 +60,10 @@
   - `tools.profile = "full"`
   - `tools.exec.security = "full"`
   - `tools.exec.ask = "off"`
-- 后台运行时用到的 key，统一写入 LaunchAgent 环境变量并重启 gateway
+- 后台运行时用到的 key，文档里统一写明：
+  - `LaunchAgent`
+  - `环境变量`
+  - 是否需要重启 gateway
 - skill 明确要求写配置文件的，再写进 `openclaw.json`
 
 ## 当前共享技能基线
@@ -149,7 +153,7 @@
 - [docs/delivery/回滚模板.md](/Users/waylon/Desktop/openclaw-product/docs/delivery/回滚模板.md)
   - 新技能上线失败时的标准回滚模板
 - [docs/guides/README.md](/Users/waylon/Desktop/openclaw-product/docs/guides/README.md)
-  - 使用、培训、人格审阅入口
+  - 使用、培训、Agent 工作区审阅入口
 - [docs/guides/Agent官方核心文件说明.md](/Users/waylon/Desktop/openclaw-product/docs/guides/Agent官方核心文件说明.md)
   - 当前项目里 Agent 官方核心文件与交付文档的分层说明
 - [docs/delivery/README.md](/Users/waylon/Desktop/openclaw-product/docs/delivery/README.md)
@@ -165,6 +169,7 @@
 6. 启用 `memory-lancedb-pro` 和 `lossless-claw`
 7. 安装共享基础 skill
 8. 再给 `stock-agent` / `education-agent` 等加专有 skill
+9. 如需主动巡检，再评估是否启用 `proactive-engine`
 
 ## 后续新增专有技能的默认策略
 
@@ -207,7 +212,7 @@ make acceptance
 补充：
 
 - `make delivery-check`
-  - 校验当前仓库是否具备可交付的 7 角色文档、模板和交付包结构
+  - 校验当前仓库是否具备可交付的 7 个 Agent 文档、模板和交付包结构
 - `make acceptance`
   - 对本机 OpenClaw 环境执行最小只读验收
   - 默认不跑 `channels --probe`
@@ -225,4 +230,4 @@ make acceptance
 补充：
 
 - OpenClaw 本体安装、飞书插件安装、Agent 创建与渠道绑定，默认都先遵循官方文档
-- 本仓库主要补充的是：7 角色交付结构、共享技能、专有技能、记忆插件、Key 规则和迁移回滚规范
+- 本仓库主要补充的是：7 个 Agent 交付结构、共享技能、专有技能、记忆插件、Key 规则和迁移回滚规范

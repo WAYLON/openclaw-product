@@ -8,7 +8,7 @@ from typing import Any
 class AgentContext:
     """当前调用上下文。
 
-    每个 Agent 只看到自己这一条调用链上下文，不共享人格与决策。
+    每个 Agent 只看到自己这一条调用链上下文，不共享默认工作方式与决策。
     """
 
     tenant_id: str

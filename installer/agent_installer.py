@@ -111,9 +111,9 @@ class AgentInstaller:
                 target.write_text(content, encoding="utf-8")
 
     def _build_soul_md(self, agent_id: str, soul_text: str) -> str:
-        return f"""# {agent_id} 灵魂设定
+        return f"""# {agent_id} 工作区配置
 
-以下内容来自 `soul.yaml`，用于生成该 Agent 的人格、边界与风格：
+以下内容来自 `soul.yaml`，用于生成该 Agent 的默认工作方式、边界与风格：
 
 ```yaml
 {soul_text.rstrip()}
@@ -157,7 +157,7 @@ class AgentInstaller:
 
 ## 约束
 - 不直接把第三方系统当作业务脑子
-- 不跨 Agent 共享人格和记忆
+- 不跨 Agent 共享默认工作方式和记忆
 """
 
     def _build_heartbeat_md(self, agent_id: str) -> str:
@@ -175,5 +175,5 @@ class AgentInstaller:
 
 - 记忆命名空间：`memory/{agent_id}`
 - 不与其他 Agent 共用业务决策记忆
-- 共享的是工具，不共享人格与结论
+- 共享的是工具，不共享默认工作方式与结论
 """

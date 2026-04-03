@@ -47,6 +47,14 @@ openclaw status --deep
 - `baseUrl = http://127.0.0.1:8080/v1`
 - `apiKey = pwd`
 
+同时把默认压缩保底阈值调高：
+
+- `agents.defaults.compaction.reserveTokensFloor = 20000`
+
+避免较长会话里频繁出现：
+
+- `Context limit exceeded`
+
 ## 3. 注册 7 个 Agent
 
 ```bash
@@ -142,19 +150,41 @@ openclaw agents bind --agent sales-agent --channel feishu --account salesbot
 - `memory-lancedb-pro`
 - `lossless-claw`
 
+可选插件：
+
+- `proactive-engine`
+
 插件安装细节见：
 
 - [记忆插件安装教程.md](/Users/waylon/Desktop/openclaw-product/docs/installation/记忆插件安装教程.md)
+
+关于 `proactive-engine`：
+
+- 安装命令：
+
+```bash
+openclaw plugins install clawhub:proactive-engine
+```
+
+- 当前现场验证结果：
+  - 插件要求 `plugin API 2026.3.28`
+  - 当前 OpenClaw runtime 暴露的是 `2026.3.25`
+  - 因此当前机器上不能直接安装成功
+- 项目口径：
+  - 先不把它纳入默认首发安装清单
+  - 仅作为后续可选平台插件记录
 
 运行时 key：
 
 - `TRADINGAGENTS_TOKEN`
 - `GEMINI_API_KEY`
 - `QVERIS_API_KEY`
+- `SILICONFLOW_API_KEY`
 
-这些运行时 key 都要写到：
+这些运行时 key 都要同时满足两点：
 
-- `~/Library/LaunchAgents/ai.openclaw.gateway.plist`
+- LaunchAgent：`~/Library/LaunchAgents/ai.openclaw.gateway.plist`
+- 环境变量：变量名必须和技能要求一致
 
 然后重启 gateway。
 

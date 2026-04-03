@@ -101,7 +101,7 @@ def default_platform_payload() -> dict:
         "docs_language": "zh-CN",
         "notes": [
             "本平台采用平行 Agent 架构。",
-            "当前推荐运行态为 7 个角色：1 个 main + 6 个业务 Agent。",
+            "当前推荐运行态为 7 个 Agent：1 个 main + 6 个业务 Agent。",
             "一个渠道实例只绑定一个 Agent。",
             "Soul、Prompt、文档与讲师资料默认中文。",
         ],

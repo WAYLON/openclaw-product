@@ -88,7 +88,7 @@ def main() -> int:
     parser.add_argument("--memory-health", action="store_true", help="附加执行 memory 健康检查")
     parser.add_argument("--full", action="store_true", help="执行推荐的完整交付验收")
     parser.add_argument("--timeout", type=int, default=20, help="单个 OpenClaw 命令超时时间（秒）")
-    parser.add_argument("--scenario", action="store_true", help="按角色验收模板执行标准场景问题")
+    parser.add_argument("--scenario", action="store_true", help="按 Agent 验收模板执行标准场景问题")
     parser.add_argument("--report", default="", help="把验收结果写入 Markdown 文件")
     args = parser.parse_args()
 

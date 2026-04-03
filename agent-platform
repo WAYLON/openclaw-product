@@ -394,7 +394,7 @@ def build_parser() -> argparse.ArgumentParser:
     acceptance = sub.add_parser("acceptance", help="本机最小验收入口")
     acceptance.add_argument("--probe-channels", action="store_true", help="附加执行 channels --probe")
     acceptance.add_argument("--smoke", action="store_true", help="附加执行 6 个业务 Agent 的最小回复测试")
-    acceptance.add_argument("--scenario", action="store_true", help="按角色验收模板执行标准场景问题")
+    acceptance.add_argument("--scenario", action="store_true", help="按 Agent 验收模板执行标准场景问题")
     acceptance.add_argument("--report", default="", help="把验收结果写入 Markdown 文件")
 
     return parser
